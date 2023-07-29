@@ -11,4 +11,4 @@
 
 ## TODO(s)
 
-* Complete write up for ![setup.sh](./setup.sh)
+* Complete write up for [`setup.sh`](./setup.sh)
