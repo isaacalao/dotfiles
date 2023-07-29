@@ -1,3 +1,5 @@
 [user]
 	name = IsaacAlao
-	email = 88806554+IsaacAlao@users.noreply.github.com 
+	email = 88806554+IsaacAlao@users.noreply.github.com
+[core]
+	editor = vim 
