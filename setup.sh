@@ -41,9 +41,10 @@ then
 	  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	 fi
 	else
-	 printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n\e[33mInitiating brew bundle (may require sudo).\e[0m\n"
-	 brew bundle
-	fi 
+	 printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n"
+	fi
+   printf "\e[33mInitiating brew bundle (may require sudo).\e[0m\n?""
+   brew bundle
 elif [[ "$platform" = ["gnu""linux"]*["gnu""linux"] ]]; 
 then
 	printf "\e[34mNo implementation here yet.\e[0m\n";
