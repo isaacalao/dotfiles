@@ -42,7 +42,7 @@ then
 	 fi
 	else
 	 printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n\e[33mInitiating brew bundle (may require sudo).\e[0m\n"
-	 load_viz brew bundle
+	 brew bundle
 	fi 
 elif [[ "$platform" = ["gnu""linux"]*["gnu""linux"] ]]; 
 then
