@@ -1,2 +1,3 @@
-setup_log.txt
+*.swp
+*log*.txt
 Brewfile.lock.json
