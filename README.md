@@ -5,10 +5,13 @@
 ```
  xcode-select --install
 ``` 
+* ...
 
 ## Visual(s)
 ![waiting](./miscellaneous/waiting.gif)
 
 ## TODO(s)
 
+* Linux [ apt, brew, ??? ]
 * Complete write up for [`setup.sh`](./setup.sh)
+* ...

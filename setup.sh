@@ -14,13 +14,13 @@
    ("$@" >> setup_log.txt 2>&1) & # Run a command in a subshell in the background and output stdout/err into a file 
    pidn="$!" # Acquire the process id number
    state=1 # true/false state
-   if [[ $# > 0 ]]; then
+   if [[ "$#" -gt 0 ]]; then
      loadchar=( "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" "▇" "▆" "▅" "▄" "▃" "▁" ) 
      for (( i=1; "$state" == 1; i++ )); do
         sleep 0.1
         printf "\t\e[33mWaiting %s\e[0m\r" "${loadchar[$((i%${#loadchar[@]}))]}"
 	[[ "$i" == 10 ]] && i=1
-	ps $pidn > /dev/null 2>&1; [[ $? = 1 ]] && state=0
+	ps $pidn > /dev/null 2>&1; [[ "$?" = 1 ]] && state=0
      done
    else
         printf "Usage: load_viz <command> [...]\n\tload_viz echo Hi\n"
@@ -33,9 +33,9 @@ platform=$(uname | tr "[:upper:]" "[:lower:]")
 
 if [[ "$platform" = "darwin" ]]; 
 then
-	printf "\e[33mChecking for brew... on %s\e[0m\n" "$platform";
+	printf "\e[33mChecking for brew on %s.\e[0m\n" "$platform";
 	if [[ $(brew -v; echo $?) = 127 ]]; then 
-	 printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n\e[33mDo you want to install it? [y/N] \e[0m\e[34m "
+	 printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n\e[33mDo you want to install it? [y/N]\e[0m\e[34m "
 	 read -r ans; printf "\e[0m"
 	 if [[ "${ans}" = [Yy]* ]]; then
 	  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
