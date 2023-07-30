@@ -62,7 +62,7 @@ brew "lua"
 # Package manager for the Lua programming language
 brew "luarocks"
 # Fast, safe, gradually typed embeddable scripting language derived from Lua
-brew "luau"
+brew "luau", link: false
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
 # Cross platform, open source .NET development framework
