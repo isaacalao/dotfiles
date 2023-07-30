@@ -24,7 +24,7 @@ load_viz() {
 		for ((i = 1; "$state" == 1; i++)); do
 			sleep 0.1
 			printf "\t\e[33mWaiting %s\e[0m\r" "${loadchar[$((i % ${#loadchar[@]}))]}"
-			[[ "$i" == 10 ]] && i=1
+			[[ "$i" == "${#loadchar}" ]] && i=1
 			ps "$pidn" >/dev/null 2>&1
 			[[ "$?" = 1 ]] && state=0
 		done
