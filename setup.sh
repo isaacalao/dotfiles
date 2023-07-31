@@ -12,7 +12,7 @@ PLATFORM=$(uname | tr "[:upper:]" "[:lower:]")
 
 # FUNCTIONS
 ask_prompt() {
- # Usage: prompt user, read input, if input matches glob params then yield 0:success, if not 1:failure
+ # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
  printf "\e[33m%s [y/N]\e[0m\e[34m " "$1"
  read -r ans
  printf "\e[0m"
