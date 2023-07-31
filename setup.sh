@@ -76,6 +76,7 @@ if ask_prompt "Do you want to remove setuplog?"; then
  printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)"
 fi
 
-unset ask_prompt load_viz init_brew PLATFORM
+unset PLATFORM
+unset -f ask_prompt load_viz init_brew 
 
 exit 0
