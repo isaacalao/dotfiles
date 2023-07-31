@@ -14,9 +14,9 @@ setopt PROMPT_SUBST;
 PS1=$'[%F{116}%.%f]»[%F{195}$(git remote 2> /dev/null)%f⧸%F{112}$(__git_ps1 %s)%f]'
 RPROMPT=$'%{%(?:%F{green}%f:%F{red}%f)%} jobs ➫ %j'
 
-mkcd() { mkdir -p $1 && cd $1; }
-igorscmd() { curl "https://$1/$2" }
-
+wttr() { curl "https://wttr.in/$1"; }
+chtsh() { curl "https://cht.sh/$1"; }
+mkcd() { mkdir -p "$1" && cd "$1" || return; }
 
 alias ls="exa"
 alias cat="bat"
@@ -25,8 +25,6 @@ alias tree="exa --tree"
 alias nano="nano -l"
 alias openvpn="sudo openvpn"
 alias keycast="open -a Keycastr"
-alias wttr="igorscmd wttr.in"
-alias chtsh="igorscmd cht.sh"
 alias pbclear="pbcopy < /dev/null"
 alias bpy-docs="open /opt/homebrew/Caskroom/blender/BPY\ API/index.html"
 #alias discord="(/Applications/Discord\ PTB.app/Contents/MacOS/Discord\ PTB &) > /dev/null 2>&1"

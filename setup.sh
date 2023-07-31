@@ -12,7 +12,7 @@ PLATFORM=$(uname | tr "[:upper:]" "[:lower:]")
 
 # FUNCTIONS
 ask_prompt() {
- 
+ # Usage: prompt user, read input, if input matches glob params then yield 0:success, if not 1:failure
  printf "\e[33m%s [y/N]\e[0m\e[34m " "$1"
  read -r ans
  printf "\e[0m"
@@ -21,7 +21,6 @@ ask_prompt() {
 }
 
 load_viz() { # Should only be used for commands that do not expend too much time and require sudo
-
 	("$@" >> setuplog.txt 2>&1) & # Run a command in a subshell in the background and redirect stdout/err to setuplog
 	pidn="$!"                     # Acquire the process id number
 	
@@ -55,15 +54,13 @@ init_brew() {
 		printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n"
 	fi
 	
-	
 	if ask_prompt "Do you want to initiate brew bundle (may require sudo)."; then
 	 brew bundle
 	fi
 }
 
 # PLATFORM CHECK
-
- load_viz sleep 5
+# load_viz sleep 5
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt
 
 if [[ "$PLATFORM" = "darwin" ]]; then
@@ -75,6 +72,10 @@ else
 fi
 
 # ...
+if ask_prompt "Do you want to remove setuplog?"; then
+ printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)"
+fi
 
 unset ask_prompt load_viz init_brew PLATFORM
 
+exit 0
