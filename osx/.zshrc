@@ -16,7 +16,7 @@ RPROMPT=$'%{%(?:%F{green}%f:%F{red}%f)%} jobs ➫ %j'
 
 wttr() { curl "https://wttr.in/$1"; }
 chtsh() { curl "https://cht.sh/$1"; }
-mkcd() { mkdir -p "$1" && cd "$1" || return; }
+mkcd() { mkdir -p "$@" && cd "$_" || return; }
 
 alias ls="exa"
 alias cat="bat"
