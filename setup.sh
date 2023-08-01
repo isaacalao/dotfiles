@@ -37,7 +37,8 @@ load_viz() { # Should only be used for commands that do not expend too much time
 		done
 	else
 		printf "Usage: load_viz <command> [...]\n\tload_viz echo Hi\n"
-	fi  
+	fi
+ return 0  
 }
 
 init_brew() {
