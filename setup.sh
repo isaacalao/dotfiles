@@ -4,20 +4,19 @@
 
 # REFERENCE: https://www.shellcheck.net/
 
-#MISC
+# MISC
 printf "████████████████████↯\n" >> setuplog.txt # Used to distinguish each setup instance
 
 # GLOBAL VARIABLES
 PLATFORM=$(uname | tr "[:upper:]" "[:lower:]")
 
 # FUNCTIONS
-ask_prompt() {
- # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
- printf "\e[33m%s [y/N]\e[0m\e[34m " "$1"
- read -r ans
- printf "\e[0m"
-
- [[ "$ans" = [Yy]* ]] && return 0 || return 1
+ask_prompt() { # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
+ 	printf "\e[33m%s [y/N]\e[0m\e[34m " "$1"
+  	read -r ans
+ 	printf "\e[0m"
+	
+	[[ "$ans" = [Yy]* ]] && return 0 || return 1
 }
 
 load_viz() { # Should only be used for commands that do not expend too much time and require sudo
@@ -30,14 +29,13 @@ load_viz() { # Should only be used for commands that do not expend too much time
 			sleep 0.1
 			printf "\t\e[33mWaiting %s\e[0m\r" "${loadchar[$((i % ${#loadchar[@]}))]}"
 			[[ "$i" == "${#loadchar}" ]] && i=1
-			if ! ps -p "$pidn" -o =pid > /dev/null 2>&1; then # Check if the pid num does not exist
-			 break; 
-			fi
+			ps -p "$pidn" -o pid= > /dev/null 2>&1 # Check if process exists 
+			[[ "$?" = 1 ]] && printf "\t\e[33mFinished \e[0m\e[32m✓\e[0m\r\n" && break; 
 		done
-		printf "\t\e[33mFinished \e[0m\e[32m✓\e[0m\r\n"
 	else
 		printf "Usage: load_viz <command> [...]\n\tload_viz echo Hi\n"
 	fi
+  return 0
 }
 
 init_brew() {
@@ -48,19 +46,19 @@ init_brew() {
 		if ask_prompt "Do you want to install it?"; then
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		else
-			exit
+			return 0
 		fi
 	else
 		printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n"
 	fi
 	
-	if ask_prompt "Do you want to initiate brew bundle (may require sudo)."; then
-	 brew bundle
-	fi
+	ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew bundle;
+	ask_prompt "Do you want to remove setuplog?" && printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
+  return 0
 }
 
 # PLATFORM CHECK
-# load_viz sleep 5
+ load_viz sleep 10
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt
 
 if [[ "$PLATFORM" = "darwin" ]]; then
@@ -72,9 +70,6 @@ else
 fi
 
 # ...
-if ask_prompt "Do you want to remove setuplog?"; then
- printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)"
-fi
 
 unset PLATFORM
 unset -f ask_prompt load_viz init_brew 
