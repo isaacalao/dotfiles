@@ -8,7 +8,8 @@
 printf "████████████████████\n" >> setuplog.txt # Distinguish each setup instance
 
 # GLOBAL VARIABLES
-PLATFORM=$(uname | tr "[:upper:]" "[:lower:]")
+OSTYPE=$(uname | tr "[:upper:]" "[:lower:]")
+ARCH=$(uname -p | tr "[:upper:]" "[:lower:]")
 
 # FUNCTIONS
 ask_prompt() { # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
@@ -42,7 +43,7 @@ load_viz() { # Should only be used for commands that do not expend too much time
 }
 
 init_brew() {
-	printf "\e[33mChecking for brew on %s.\e[0m\n" "$PLATFORM"
+	printf "\e[33mChecking for brew on %s [%s].\e[0m\n" "$OSTYPE" "$ARCH"
 	
 	if ! brew --version >> setuplog.txt 2>&1; then # Redirect stdout/err to setuplog while checking
 		printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n"
@@ -60,21 +61,22 @@ init_brew() {
   return 0
 }
 
-# PLATFORM CHECK
+# OSTYPE CHECK
 # load_viz sleep 3
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt
 
-if [[ "$PLATFORM" = "darwin" ]]; then
+if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew
-elif [[ "$PLATFORM" = ["gnu""linux"]*["gnu""linux"] ]]; then
+elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then
+	init_brew
 	printf "\e[34mNo implementation here yet.\e[0m\n"
 else
-	printf "\e[31m%s is not supported.\e[0m\n" "$PLATFORM"
+	printf "\e[31m%s is not supported.\e[0m\n" "$OSTYPE"
 fi
 
 # ...
 
-unset PLATFORM
+unset OSTYPE ARCH
 unset -f ask_prompt load_viz init_brew 
 
 exit 0
