@@ -14,15 +14,20 @@ ARCH=$(uname -p | tr "[:upper:]" "[:lower:]");
 # FUNCTIONS
 ask_prompt() { # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
 	unset ans;
-	while [ -z $ans  ]; do
-	 printf "\e[33m%s [y/N]\e[0m\e[34m " "$1";
-	  read -r ans;
-	 printf "\e[0m\r"; # Reset and mv cursor to the beginning of the line
+	while [ -z $ans ]; do
+	  printf "\e[33m%s [y/N]\e[0m\e[34m " "$1";
+	  read -n 1 -r ans; 
+	  if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
+	   printf "\e[0m\n";
+	  else
+	   printf "\e[0m\r\e[1A";
+	  fi 
 	done
-	
+
 	[[ "$ans" = [Yy]* ]] && return 0 || return 1;
 }
 
+# WIP
 load_viz() { # Should only be used for commands that do not expend too much time and require sudo
 	("$@" >> setuplog.txt 2>&1;) & # Run a command in a subshell in the background and redirect stdout/err to setuplog
 	pidn="$!";                     # Acquire the process id number
@@ -34,7 +39,7 @@ load_viz() { # Should only be used for commands that do not expend too much time
 			printf "\t\e[33mWaiting on %s %s\e[0m\r" "$1" "${loadchar[$((i % ${#loadchar[@]}))]}";
 			[[ "$i" == "${#loadchar}" ]] && i=1;
 			ps -p "$pidn" -o pid= > /dev/null 2>&1; # Check if process exists 
-			[[ "$?" = 1 ]] && printf "\t\033[0K\e[33mFinished \e[0m\e[32m✓\e[0m\r\n" && break;
+			[[ "$?" = 1 ]] && printf "\t\e[0K\e[33mFinished \e[0m\e[32m✓\e[0m\r\n" && break;
 		done
 	else
 		printf "Usage: load_viz <command> [...]\n\tload_viz echo Hi\n";
@@ -62,7 +67,7 @@ init_brew() {
 }
 
 # OSTYPE CHECK
-# load_viz sleep 10;
+# load_viz sleep 4;
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt;
 
 if [[ "$OSTYPE" = "darwin" ]]; then
