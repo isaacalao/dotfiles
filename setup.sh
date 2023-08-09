@@ -10,7 +10,7 @@ printf "████████████████████\n" >> setup
 # GLOBAL VARIABLES
 OSTYPE=$(uname | tr "[:upper:]" "[:lower:]");
 ARCH=$(uname -p | tr "[:upper:]" "[:lower:]");
-
+DISTRO=
 # FUNCTIONS
 ask_prompt() { # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
 	unset ans;
@@ -48,25 +48,29 @@ load_viz() { # Should only be used for commands that do not expend too much time
 }
 
 init_brew() {
-	printf "\e[33mChecking for brew on %s [%s].\e[0m\n" "$OSTYPE" "$ARCH";
+	printf "\e[33mChecking for brew on %s-%s [%s].\e[0m\n" "$OSTYPE" "$DISTRO" "$ARCH";
 	
 	if ! brew --version >> setuplog.txt 2>&1; then # Redirect stdout/err to setuplog while checking
 		printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n"
 		if ask_prompt "Do you want to install it?"; then
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 			printf "\e[33mAdding Homebrew to your PATH:\e[0m\n"
-			if [[ "$OSTYPE" = "darwin" && "$ARCH" = "arm" ]]; then # M1/2 w/ zsh 
+			if [[ "$OSTYPE" = "darwin" && "$ARCH" = "arm" ]]; then # OSX M1/2 
                          echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
     			 eval "$(/opt/homebrew/bin/brew shellenv)";
 			
-			elif [[ "$OSTYPE" = ["fedora""linux""rhel"] ]]; then # Fedora
+			elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then # Linux x86_64
 			 echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile
 			 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
 			 
-			 sudo yum groupinstall 'Development Tools'
-			 sudo yum install procps-ng curl file git
-
+			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
+			 if [[ "$DISTRO" = ["rhel""fedora"] ]]; then
+			  sudo yum groupinstall 'Development Tools'
+			  sudo yum install procps-ng curl file git
+			 elif [[ "$DISTRO" = ["kali""ubuntu""debian"] ]]; then
+			  sudo apt-get install build-essential procps curl file git
+			 fi
+			 
 			 printf "\e[33mInstalling GCC.\e[0m\n"
 			 brew install gcc
 			fi
@@ -89,7 +93,7 @@ init_brew() {
 if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
 elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then
-	OSTYPE="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
+	DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
 	printf "\e[34mNo implementation here yet.\e[0m\n";
 else
 	printf "\e[31m%s is not supported.\e[0m\n" "$OSTYPE";
@@ -97,7 +101,7 @@ fi
 
 # ...
 
-unset OSTYPE ARCH;
+unset OSTYPE ARCH DISTRO;
 unset -f ask_prompt load_viz init_brew;
 
 exit 0;
