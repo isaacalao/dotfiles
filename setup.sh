@@ -53,10 +53,10 @@ init_brew() {
 	if ! brew --version >> setuplog.txt 2>&1; then # Redirect stdout/err to setuplog while checking
 		printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n"
 		if ask_prompt "Do you want to install it?"; then
-			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 			printf "\e[33mAdding Homebrew to your PATH:\e[0m\n"
 			if [[ "$OSTYPE" = "darwin" && "$ARCH" = "arm" ]]; then # OSX M1/2 
-                         echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
+                         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+			 echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
     			 eval "$(/opt/homebrew/bin/brew shellenv)";
 			
 			elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then # Linux x86_64
@@ -71,6 +71,7 @@ init_brew() {
 			  sudo apt-get install build-essential procps curl file git
 			 fi
 			 
+			 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 			 printf "\e[33mInstalling GCC.\e[0m\n"
 			 brew install gcc
 			fi
