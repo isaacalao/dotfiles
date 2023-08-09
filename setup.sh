@@ -14,7 +14,7 @@ ARCH=$(uname -p | tr "[:upper:]" "[:lower:]");
 # FUNCTIONS
 ask_prompt() { # Usage: prompt user, read input, if input matches glob patterns then yield 0:success, if not 1:failure
 	unset ans;
-	while [ -z $ans ]; do
+	while [ -z "$ans" ]; do
 	  printf "\e[33m%s [y/N]\e[0m\e[34m " "$1";
 	  read -n 1 -r ans; 
 	  if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
@@ -54,6 +54,22 @@ init_brew() {
 		printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n"
 		if ask_prompt "Do you want to install it?"; then
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+			printf "\e[33mAdding Homebrew to your PATH:\e[0m\n"
+			if [[ "$OSTYPE" = "darwin" && "$ARCH" = "arm" ]]; then # M1/2 w/ zsh 
+                         echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
+    			 eval "$(/opt/homebrew/bin/brew shellenv)";
+			
+			elif [[ "$OSTYPE" = ["fedora""linux""rhel"] ]]; then # Fedora
+			 echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile
+			 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
+			 
+			 sudo yum groupinstall 'Development Tools'
+			 sudo yum install procps-ng curl file git
+
+			 printf "\e[33mInstalling GCC.\e[0m\n"
+			 brew install gcc
+			fi
 		else
 			return 0;
 		fi
@@ -73,6 +89,7 @@ init_brew() {
 if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
 elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then
+	OSTYPE="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
 	printf "\e[34mNo implementation here yet.\e[0m\n";
 else
 	printf "\e[31m%s is not supported.\e[0m\n" "$OSTYPE";
