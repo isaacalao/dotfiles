@@ -51,35 +51,39 @@ init_brew() {
 	printf "\e[33mChecking for brew on %s-%s [%s].\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
 	
 	if ! brew --version >> setuplog.txt 2>&1; then # Redirect stdout/err to setuplog while checking
+		
 		printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n"
 		if ask_prompt "Do you want to install it?"; then
 			
 			if [[ "$OSTYPE" = "darwin" && "$ARCH" = "arm" ]]; then # OSX M1/2
-              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+              		  
+			  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 			  printf "\e[33mAdding Homebrew to your PATH:\e[0m\n"
 			  echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
-    		  eval "$(/opt/homebrew/bin/brew shellenv)";
+    		  	  eval "$(/opt/homebrew/bin/brew shellenv)";
 			
 			elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then # Linux x86_64
-			  printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
+
+			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
 			 if [[ "$DISTRO" = ["rhel""fedora"]* ]]; then
 			  # <wip>
 			  sudo yum groupinstall 'Development Tools'
 			  sudo yum install procps-ng curl file git
 			 elif [[ "$DISTRO" = ["kali""ubuntu""debian"]* ]]; then
-			  sudo apt update  # update and upgrade (typically for fresh installs)
-			  sudo apt upgrade
-			  sudo apt-get install build-essential procps curl file git
+			  sudo apt-get update;  # update and upgrade (typically for fresh installs)
+			  sudo apt-get upgrade; # apt (newer) | apt-get (older)
+			  sudo apt-get install build-essential procps curl file git;
 			 fi
 			 
 			 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 
-			 printf "\e[33mAdding Homebrew to your PATH.\e[0m\n"
-			  echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile
-			  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+			 printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
+			  echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile;
+			  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)";
 
-			 printf "\e[33mInstalling GCC.\e[0m\n"
-			  brew install gcc
+			 printf "\e[33mInstalling GCC.\e[0m\n";
+			  brew install gcc;
+			
 			fi
 		else
 			return 0;
@@ -90,7 +94,8 @@ init_brew() {
 	
 	ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew bundle;
 	ask_prompt "Do you want to remove setuplog?" && printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
-  return 0;
+  
+ return 0;
 }
 
 # OSTYPE CHECK
@@ -101,8 +106,8 @@ if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
 elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then
 	DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
+	printf "\e[34mImplementation here is WIP.\e[0m\n";
 	init_brew;
-	printf "\e[34mNo implementation here yet.\e[0m\n";
 else
 	printf "\e[31m%s is not supported.\e[0m\n" "$OSTYPE";
 fi
