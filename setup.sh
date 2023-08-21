@@ -61,7 +61,7 @@ init_brew() {
 			  printf "\e[33mAdding Homebrew to your PATH:\e[0m\n"
 			  echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
     		  	  eval "$(/opt/homebrew/bin/brew shellenv)";
-			
+			  . "$HOME"/.zprofile;
 			elif [[ "$OSTYPE" = ["gnu""linux"]*["gnu""linux"] ]]; then # Linux x86_64
 
 			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
@@ -80,6 +80,7 @@ init_brew() {
 			 printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
 			  echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile;
 			  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)";
+			  . "$HOME"/.bash_profile;
 
 			 printf "\e[33mInstalling GCC.\e[0m\n";
 			  brew install gcc;
