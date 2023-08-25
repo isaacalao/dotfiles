@@ -7,7 +7,18 @@
  xcode-select --install
 ```
 ### Linux
-* ...
+* Install git & curl
+	* `Debian based distros:`
+	  ``` 
+ 	  sudo apt-get update;
+ 	  sudo apt-get upgrade; 
+ 	  sudo apt-get install git curl;
+	  ```
+	* `RHEL based distros:`
+	  ```
+ 	  sudo yum install git curl;
+	  ```
+
 
 ## Visual(s)
 ![waiting](./miscellaneous/waiting.gif)

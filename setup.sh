@@ -69,11 +69,9 @@ init_brew() {
 			 if [[ "$DISTRO" = "rhel" || "$DISTRO" = "fedora" ]]; then
 			  # <wip: 1>
 			  sudo yum groupinstall 'Development Tools'
-			  sudo yum install procps-ng curl file git
+			  sudo yum install procps-ng file 
 			 elif [[ "$DISTRO" = "kali" || "$DISTRO" = "ubuntu" || $DISTRO = "debian" ]]; then
-			  sudo apt-get update;  # update and upgrade (typically for fresh installs)
-			  sudo apt-get upgrade; # apt (newer) | apt-get (older)
-			  sudo apt-get install build-essential procps curl file git;
+			  sudo apt-get install build-essential procps file;
 			 fi
 			 
 			 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
