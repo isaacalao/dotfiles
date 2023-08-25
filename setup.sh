@@ -63,14 +63,14 @@ init_brew() {
     		  	  eval "$(/opt/homebrew/bin/brew shellenv)";
 			  . "$HOME"/.zprofile;
 
-			elif [[ "$OSTYPE" = {"gnu","linux"}* ]]; then # Linux x86_64
+			elif [ echo "$OSTYPE" | grep {"gnu","linux"} ]; then # Linux x86_64 and aarch64
 
 			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
-			 if [[ "$DISTRO" = {"rhel","fedora"}* ]]; then
+			 if [ echo "$DISTRO" | grep {"rhel","fedora"} ]; then
 			  # <wip: 1>
 			  sudo yum groupinstall 'Development Tools'
 			  sudo yum install procps-ng curl file git
-			 elif [[ "$DISTRO" = {"kali","ubuntu","debian"}* ]]; then
+			 elif [ echo "$DISTRO" | grep {"kali","ubuntu","debian"} ]; then
 			  sudo apt-get update;  # update and upgrade (typically for fresh installs)
 			  sudo apt-get upgrade; # apt (newer) | apt-get (older)
 			  sudo apt-get install build-essential procps curl file git;
@@ -106,7 +106,7 @@ init_brew() {
 
 if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
-elif [[ "$OSTYPE" = {"gnu","linux"}* ]]; then
+elif [ echo "$OSTYPE" | grep {"gnu","linux"} ]; then
 	DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
 	printf "\e[34mImplementation here is WIP.\e[0m\n";
 	init_brew;
