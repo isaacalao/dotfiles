@@ -18,8 +18,8 @@
 	  ```
  	  sudo yum install git curl;
 	  ```
-
-
+## Caveat(s)
+* No support for linux `aarch/arm64`
 ## Visual(s)
 ![waiting](./miscellaneous/waiting.gif)
 

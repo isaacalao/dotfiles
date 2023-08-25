@@ -5,7 +5,7 @@
 # REFERENCE: https://www.shellcheck.net/
 
 # MISC
-printf "████████████████████\n" >> setuplog.txt; # Distinguish each setup instance
+printf "████████████████████ %s\n" "$(date)" >> setuplog.txt; # Distinguish each setup instance
 
 # GLOBAL VARIABLES
 OSTYPE=$(uname | tr "[:upper:]" "[:lower:]");
