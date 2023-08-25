@@ -106,11 +106,11 @@ init_brew() {
 
 if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
-elif [[ "$OSTYPE" = "linux" && "$ARCH" = "x86_64" ]]; then
+elif [[ "$OSTYPE" = "linux" ]]; then
 	DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
-	init_brew;
+	[[ "$ARCH" = "x86_64" ]] && init_brew || printf "\e[31m%s-%s [%s] is not supported.\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
 else
-	printf "\e[31m%s-%s [%s] is not supported.\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
+	printf "\e[31m%%s [%s] is not supported.\e[0m\n" "$OSTYPE" "$ARCH";
 fi
 
 # ...
