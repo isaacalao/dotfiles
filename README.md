@@ -17,4 +17,5 @@
 * Complete write up for [`setup.sh`](./setup.sh)
   * Finish `<wip: 1>`
   * Fix `load_viz`
+* Add `.aliases`
 * ...

@@ -18,6 +18,7 @@ wttr() { curl "https://wttr.in/$1"; }
 chtsh() { curl "https://cht.sh/$1"; }
 mkcd() { mkdir -p "$@" && cd "$_" || return; }
 
+
 alias ls="exa"
 alias cat="bat"
 alias clr="clear"
@@ -26,6 +27,7 @@ alias nano="nano -l"
 alias openvpn="sudo openvpn"
 alias keycast="open -a Keycastr"
 alias pbclear="pbcopy < /dev/null"
+alias debian="eval $(cat $HOME/.QEMU_debian_aarch64)"
 alias bpy-docs="open /opt/homebrew/Caskroom/blender/BPY\ API/index.html"
 #alias discord="(/Applications/Discord\ PTB.app/Contents/MacOS/Discord\ PTB &) > /dev/null 2>&1"
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
