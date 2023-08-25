@@ -100,17 +100,18 @@ init_brew() {
  return 0;
 }
 
-# OSTYPE CHECK
+# OSTYPE ARCH CHECK
 # load_viz sleep 4;
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt;
 
+[[ "$ARCH" = "unknown" ]] && ARCH=$(uname -m | tr "[:upper:]" "[:lower:]")
 if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
 elif [[ "$OSTYPE" = "linux" ]]; then
 	DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
 	[[ "$ARCH" = "x86_64" ]] && init_brew || printf "\e[31m%s-%s [%s] is not supported.\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
 else
-	printf "\e[31m%%s [%s] is not supported.\e[0m\n" "$OSTYPE" "$ARCH";
+	printf "\e[31m%s [%s] is not supported.\e[0m\n" "$OSTYPE" "$ARCH";
 fi
 
 # ...
