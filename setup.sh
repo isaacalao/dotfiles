@@ -63,7 +63,7 @@ init_brew() {
     		  	  eval "$(/opt/homebrew/bin/brew shellenv)";
 			  . "$HOME"/.zprofile;
 
-			elif [[ "$OSTYPE" = "linux" ]]; then # Linux x86_64 and aarch64
+			elif [[ "$OSTYPE" = "linux" ]]; then # Linux x86_64 
 
 			 printf "\e[33mInstalling build tools (requires sudo).\e[0m\n"
 			 if [[ "$DISTRO" = "rhel" || "$DISTRO" = "fedora" ]]; then
@@ -106,12 +106,11 @@ init_brew() {
 
 if [[ "$OSTYPE" = "darwin" ]]; then
 	init_brew;
-elif [[ "$OSTYPE" = "linux" ]]; then
+elif [[ "$OSTYPE" = "linux" && "$ARCH" = "x86_64" ]]; then
 	DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)"
-	printf "\e[34mImplementation here is WIP.\e[0m\n";
 	init_brew;
 else
-	printf "\e[31m%s is not supported.\e[0m\n" "$OSTYPE";
+	printf "\e[31m%s-%s [%s] is not supported.\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
 fi
 
 # ...
