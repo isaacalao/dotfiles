@@ -93,7 +93,6 @@ init_brew() {
 	fi
 	
 	ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew bundle;
-	ask_prompt "Do you want to remove setuplog?" && printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
   
  return 0;
 }
@@ -113,6 +112,8 @@ else
 fi
 
 # ...
+
+ask_prompt "Do you want to remove setuplog?" && printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
 
 unset OSTYPE ARCH DISTRO;
 unset -f ask_prompt load_viz init_brew;
