@@ -21,7 +21,7 @@
 ## Caveat(s)
 * No support for linux `aarch/arm64`
 ## Visual(s)
-![waiting](./miscellaneous/waiting.gif)
+![waiting](.)
 
 ## TODO(s)
 
