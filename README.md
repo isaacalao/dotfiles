@@ -21,7 +21,7 @@
 ## Caveat(s)
 * No support for linux `aarch/arm64`
 ## Visual(s)
-![waiting](.)
+…
 
 ## TODO(s)
 
@@ -29,4 +29,4 @@
   * Finish `<wip: 1>`
   * Fix `load_viz`
 * Add `.aliases`
-* ...
+* …
