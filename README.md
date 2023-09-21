@@ -8,13 +8,13 @@
 ```
 ### Linux
 * Install git & curl
-	* `Debian based distros:`
+	* `apt based distros:`
 	  ``` 
  	  sudo apt-get update;
  	  sudo apt-get upgrade; 
  	  sudo apt-get install git curl;
 	  ```
-	* `RHEL based distros:`
+	* `RPM based distros:`
 	  ```
  	  sudo yum install git curl;
 	  ```
