@@ -5,5 +5,5 @@ source $VIMRUNTIME/defaults.vim
 set number
 
 " Enable syntax highlighting.
-syntax on
-
+syntax enable
+filetype plugin indent on
