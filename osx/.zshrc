@@ -1,6 +1,6 @@
 setopt PROMPT_SUBST;
-PS1=$'[%F{116}%.%f]»[%F{195}$(git remote 2> /dev/null)%f⧸%F{112}$(__git_ps1 %s)%f]'
-RPROMPT=$'%{%(?:%F{green}%f:%F{red}%f)%} jobs ➫ %j'
+
+PS1=$'\x1B[37m$(git remote 2> /dev/null)\x1B[0m—\x1B[34m$(__git_ps1 %s)\x1B[0m of \x1B[36m%.\x1B[0m %{%(?:%F{green}%f:%F{red}%f)%} ➫ %j\n\$ '
 
 test -f "$HOME/<script-goes-here>" && . $_ 
 
