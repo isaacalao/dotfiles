@@ -18,7 +18,9 @@ editprofile() { vim ~/.zprofile }
 #}
 
 # Aliases
-alias ls="exa --tree -L 1 -lh"
+alias ..="cd .."
+alias ls="exa --tree -L 1"
+alias nc="ncat"
 alias cat="bat"
 alias clr="clear"
 alias tree="exa --tree"
@@ -27,5 +29,5 @@ alias openvpn="sudo openvpn"
 alias keycast="open -a Keycastr"
 alias diff="diff --color=always"
 alias pbclear="pbcopy < /dev/null"
-alias bpy-docs="open /opt/homebrew/Caskroom/blender/BPY\ API/index.html"
+#alias bpy-docs="open /opt/homebrew/Caskroom/blender/BPY\ API/index.html"
 #alias discord="(/Applications/Discord\ PTB.app/Contents/MacOS/Discord\ PTB &) > /dev/null 2>&1"

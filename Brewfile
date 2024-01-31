@@ -5,134 +5,94 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "isen-ng/dotnet-sdk-versions"
 tap "teamookla/speedtest"
-# TIFF library and utilities
 brew "libtiff"
-# Color management engine supporting ICC profiles
-brew "little-cms2"
-# Image format providing lossless and lossy compression for web images
-brew "webp"
-# New file format for still image compression
-brew "jpeg-xl"
-# Codec library for encoding and decoding AV1 video streams
-brew "aom"
-# OpenType text shaping engine
 brew "harfbuzz"
-# Development kit for the Java programming language
-brew "openjdk"
-# Tool for reverse engineering 3rd party, closed, binary Android apps
+brew "librsvg"
+brew "adwaita-icon-theme"
+brew "little-cms2"
+brew "webp"
+brew "jpeg-xl"
+brew "aom"
 brew "apktool"
-# Clone of cat(1) with syntax highlighting and Git integration
-brew "bat"
-# Console Matrix
-brew "cmatrix"
-# GNU File, Shell, and Text utilities
-brew "coreutils"
-# Run arbitrary commands when files change
-brew "entr"
-# C library implementing the SSH2 protocol
-brew "libssh2"
-# Modern replacement for 'ls'
-brew "exa"
-# Perl lib for reading and writing EXIF metadata
-brew "exiftool"
-# Validating, recursive, caching DNS resolver
-brew "unbound"
-# GNU Transport Layer Security (TLS) Library
-brew "gnutls"
-# OCR (Optical Character Recognition) engine
-brew "tesseract"
-# Play, record, convert, and stream audio and video
-brew "ffmpeg"
-# Banner-like program prints strings as ASCII art
-brew "figlet"
-# GitHub command-line tool
-brew "gh"
-# Improved top (interactive process viewer)
-brew "htop"
-# Convert JPG images to ASCII
-brew "jp2a"
-# X.Org: Library for the X Input Extension
+brew "arm-none-eabi-gdb"
 brew "libxi"
-# Keyboard handling library
-brew "libxkbcommon"
-# Rainbows and unicorns in your console!
-brew "lolcat"
-# Powerful, lightweight programming language
-brew "lua"
-# Package manager for the Lua programming language
-brew "luarocks"
-# Fast, safe, gradually typed embeddable scripting language derived from Lua
-brew "luau", link: false
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.11"
-# Cross platform, open source .NET development framework
-brew "mono"
-# Remote terminal application
-brew "mosh"
-# Free (GNU) replacement for the Pico text editor
-brew "nano"
-# Improved Nano Syntax Highlighting Files
-brew "nanorc"
-# Fast, highly customisable system info script
-brew "neofetch"
-# Platform built on V8 to build network applications
+brew "libssh2"
+brew "bat"
+brew "cmatrix"
+brew "coreutils"
+brew "entr"
+brew "exa"
+brew "exiftool"
+brew "unbound"
+brew "gnutls"
+brew "leptonica"
+brew "tesseract"
+brew "ffmpeg"
+brew "figlet"
+brew "gh"
+brew "gtk4"
+brew "libadwaita"
+brew "ghex"
+brew "glib-networking"
+brew "gnupg"
+brew "gobject-introspection"
+brew "libsoup"
+brew "pygobject3"
+brew "gstreamer"
+brew "htop"
+brew "ipython"
+brew "jack"
+brew "jp2a"
+brew "mypy"
 brew "node"
-# SSL/TLS VPN implementing OSI layer 2 or 3 secure network extension
+brew "jupyterlab"
+brew "python@3.11"
+brew "libxkbcommon"
+brew "lolcat"
+brew "lua"
+brew "luau"
+brew "openssl@1.1"
+brew "mono"
+brew "mosh"
+brew "mysql"
+brew "nano"
+brew "nanorc"
+brew "nmap"
+brew "openconnect"
+brew "openssh"
 brew "openvpn"
-# Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
-# Simplified and community-driven man pages
+brew "qemu"
+brew "spice-gtk"
 brew "tldr"
-# Terminal multiplexer
 brew "tmux"
-# Display directories as trees (with optional color/HTML output)
 brew "tree"
-# Internet file retriever
 brew "wget"
-# Download YouTube videos from the command-line
 brew "youtube-dl"
-# Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
-# Ookla Speedtest
-brew "teamookla/speedtest/speedtest"
-# Tools for building Android applications
-cask "android-studio"
-# 3D creation suite
 cask "blender"
-# Voice and text chat software
 cask "discord-ptb"
-# Developer platform
 cask "dotnet-sdk"
-# This cask follows releases from https://github.com/dotnet/core/tree/master
 cask "dotnet-sdk6-0-400"
-# Web browser
+cask "fing"
 cask "firefox-developer-edition"
-# Free and open-source image editor
 cask "gimp"
-# Open-source keystroke visualizer
 cask "keycastr"
-# Provides updates to various Microsoft products
 cask "microsoft-auto-update"
-# Web browser
 cask "microsoft-edge"
-# Spreadsheet software
 cask "microsoft-excel"
-# Email client
 cask "microsoft-outlook"
-# Presentation software
 cask "microsoft-powerpoint"
-# Meet, chat, call, and collaborate in just one place
+cask "microsoft-remote-desktop"
 cask "microsoft-teams"
-# Word processor
 cask "microsoft-word"
-# Sandbox construction video game
 cask "minecraft"
-# Imaging utility to install operating systems to a microSD card
+cask "obs"
+cask "obsidian"
 cask "raspberry-pi-imager"
-# Music streaming service
 cask "spotify"
-# Open-source code editor
+cask "teamviewer"
+cask "utm"
 cask "visual-studio-code"
-# Desktop client for WhatsApp
 cask "whatsapp"
-# Network protocol analyzer
+cask "wireshark"

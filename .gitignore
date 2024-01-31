@@ -1,3 +1,16 @@
 *.swp
 *log*.txt
 Brewfile.lock.json
+*.out
+*.exe
+*DS_Store
+*.tmp
+~$*.docx
+# ignore video/audio
+*.mp4
+*.mov
+*.mp3
+*.webm
+*.aac
+# ignore really large files
+*.ignore.*
