@@ -1,8 +1,7 @@
 #!/bin/env bash
 
-# USAGE: Automate the installation of my environment on supported platforms
-
-# REFERENCE: https://www.shellcheck.net/
+# DESCRIPTION: Automate the installation of my environment on supported platforms
+# https://www.shellcheck.net/
 
 # MISC
 printf "████████████████████ %s\n" "$(date)" >> setuplog.txt; # Distinguish each setup instance
@@ -42,7 +41,7 @@ load_viz() { # Should only be used for commands that do not expend too much time
 			[[ "$?" = 1 ]] && printf "\t\e[0K\e[33mFinished \e[0m\e[32m✓\e[0m\r\n" && break;
 		done
 	else
-		printf "Usage: load_viz <command> [...]\n\tload_viz echo Hi\n";
+		printf "usage: load_viz cmd \x1B[4mcmdarg\x1B[0m \x1B[4m...\x1B[0m\n\tload_viz echo Hi\n";
 	fi
  return 0;
 }
