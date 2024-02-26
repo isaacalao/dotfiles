@@ -18,6 +18,7 @@ alias dirs="dirs -v"
 alias tree="exa --tree"
 alias nano="nano -l"
 alias diff="diff --color=always"
+alias grep="grep --color=always"
 
 # OSX
 # Funcs

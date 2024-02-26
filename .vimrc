@@ -9,8 +9,7 @@
 
 " Set indenting
 filetype indent on
-set ai
-set si
+set shiftwidth=4 smarttab ai
 
 " Set line numbering.
 set number
@@ -47,13 +46,13 @@ set background=dark
 colo seoul256
 
 " Rust lang server
-if executable('rust-analyzer')
-  au User lsp_setup call lsp#register_server({
-        \   'name': 'Rust Language Server',
-        \   'cmd': {server_info->['rust-analyzer']},
-        \   'whitelist': ['rust'],
-        \ })
-endif
+" if executable('rust-analyzer')
+"   au User lsp_setup call lsp#register_server({
+"         \   'name': 'Rust Language Server',
+"         \   'cmd': {server_info->['rust-analyzer']},
+"         \   'whitelist': ['rust'],
+"         \ })
+" endif
 
 " Conquer of Completion
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
