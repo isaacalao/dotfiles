@@ -38,9 +38,10 @@ load_viz() {
     if [[ "$#" -gt 0 ]]; then
 	loadchar=("/" "-" "\\" "|");
 	viz_flag=0; i=0; j=0;
-	printf "\e[?1049h\e[?25l"
+	row=$(($(stty size | awk '{print $1}')));
+	printf "\e[?1049h\e[${row};0H\e[?25l"
 	stty -echo
-
+	
 	for (( ;; )) do
 	    row=$(($(stty size | awk '{print $1}')));
 	    col=$(($(stty size | awk '{print $2}')));
