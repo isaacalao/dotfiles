@@ -39,14 +39,14 @@ load_viz() {
 	loadchar=("/" "-" "\\" "|");
 	viz_flag=0; i=0; j=0;
 	row=$(($(stty size | awk '{print $1}')));
-	printf "\e[?1049h\e[${row};0H\e[?25l"
+	printf "\e[?1049h\e[0m\e[2J\e[${row};0H\e[?25l"
 	stty -echo
 	
 	for (( ;; )) do
 	    row=$(($(stty size | awk '{print $1}')));
 	    col=$(($(stty size | awk '{print $2}')));
 	    
-	    printf "\e[48;5;$((235+i))m%${col}s\e[${row};0H%s %s\e[40m\e[0m\r" "" "$1" "${loadchar[$((j % ${#loadchar[@]}))]}";
+	    printf "\e[2J\e[48;5;$((235+i))m%${col}s\e[${row};0H%s %s\e[40m\e[0m\r" "" "$1" "${loadchar[$((j % ${#loadchar[@]}))]}";
 	    
 	    if [[ $((i)) == 4 || $viz_flag == 1 ]]; then
 		if [ $i -gt 0 ]; then
@@ -117,7 +117,7 @@ init_brew() {
 }
 
 # OSTYPE ARCH CHECK
-# load_viz sleep 4;
+# load_viz $@;
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt;
 
 [[ "$ARCH" = "unknown" ]] && ARCH=$(uname -m | tr "[:upper:]" "[:lower:]");
