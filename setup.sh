@@ -62,7 +62,7 @@ load_viz() {
 	    ps -p "$pidn" -o pid= > /dev/null 2>&1; # Check if process exists 
 	    [[ "$?" = 1 ]] && printf "\e[0KFinished \e[32m✓\e[0m\r" && sleep .2 && break;
 	    j=$((j+1))
-	    sleep 0.1;
+	    sleep 0.05;
 	done
 
 	stty echo
