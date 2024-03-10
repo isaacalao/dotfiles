@@ -13,9 +13,6 @@ set shiftwidth=4 smarttab ai
 
 " Set line numbering.
 set number
-
-" Set shell to zsh 
-"set shell=eval $(which zsh)
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---" 
 
 
