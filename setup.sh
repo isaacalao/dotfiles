@@ -63,6 +63,8 @@ load_viz() {
 	    j=$((j+1))
 	    sleep 0.1;
 	done
+
+	stty echo
 	printf "\e[?1049l\e[?25h"
     else
 	printf "usage: load_viz cmd \x1B[4mcmdarg\x1B[0m \x1B[4m...\x1B[0m\n\tload_viz echo Hi\n";
