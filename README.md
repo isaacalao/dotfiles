@@ -2,10 +2,10 @@
 
 ## Prerequisite(s)
 ### Apple
-* Install Apple's CLI tools.
+* Install Apple's CLI tools
 
 ```sh
-xcode-select --install
+xcode-select --install;
 ```
 
 ### Linux
@@ -21,7 +21,7 @@ sudo apt-get install git curl;
 
 `RPM based distros:`
 
-```
+```sh
 sudo yum install git curl;
 ```
 
@@ -29,6 +29,7 @@ sudo yum install git curl;
 * For macOS versions <= Catalina:
     * make sure the default shell is [`zsh`](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 	* `zsh` is shipped with Catalina by default
+
     * homebrew support for these versions are most likely unavailable
     * some packages may not work
 
