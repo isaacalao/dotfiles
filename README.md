@@ -4,7 +4,7 @@
 ### Apple
 * Install Apple's CLI tools.
 
-```
+```sh
 xcode-select --install
 ```
 
@@ -13,7 +13,7 @@ xcode-select --install
 
 `apt based distros:`
 
-``` 
+```sh 
 sudo apt-get update;
 sudo apt-get upgrade; 
 sudo apt-get install git curl;
@@ -25,7 +25,7 @@ sudo apt-get install git curl;
 sudo yum install git curl;
 ```
 
-# Caveats(s)
+## Caveats(s)
 * For macOS versions <= Catalina:
     * make sure the default shell is [`zsh`](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 	* `zsh` is shipped with Catalina by default
