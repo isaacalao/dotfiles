@@ -31,7 +31,7 @@ sudo yum install git curl;
   * For macOS versions <= Catalina:
     * make sure the default shell is set [`zsh`](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 	  * `zsh` is shipped with Catalina by default
-    * homebrew support for these versions are most likely unavailable
+    * homebrew support for these versions is most likely unavailable
     * some packages may not work
 
 ## TODO(s)
