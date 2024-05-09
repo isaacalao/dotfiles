@@ -6,12 +6,12 @@
 # MISC
 printf "████████████████████ %s\n" "$(date)" >> setuplog.txt; # Distinguish each setup instance
 
-# GLOBAL VARIABLES
+# Globals 
+ARCH=$([[ "$(uname -p | tr "[:upper:]" "[:lower:]")" = "unknown" ]] && uname -m | tr "[:upper:]" "[:lower:]" || uname -p | tr "[:upper:]" "[:lower:]")
 OSTYPE=$(uname | tr "[:upper:]" "[:lower:]");
-ARCH=$(uname -p | tr "[:upper:]" "[:lower:]");
 DISTRO=
 
-# FUNCTIONS
+# Functions 
 # Usage: prompt user, read input, if input matches glob patterns then yield 0 if not then 1 
 ask_prompt() {
     unset ans;
@@ -74,36 +74,18 @@ load_viz() {
     return 0;
 }
 
-init_brew() {
-    printf "\e[33mChecking for brew on %s-%s [%s].\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
+setup_osx() {
+    printf "\e[33mChecking for brew on %s%s [%s].\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
 	
-    if ! brew --version >> setuplog.txt 2>&1; then 
+    if ! which brew; then 
 	printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n";
 	if ask_prompt "Do you want to install it?"; then
-			
-	    if [[ "$OSTYPE" = "darwin" && "$ARCH" = "arm" ]]; then # OSX M1/2
+	    if [[ "$OSTYPE" = "darwin" ]]; then # OSX 10.15 and higher
               	/bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)";
-		printf "\e[33mAdding Homebrew to your PATH:\e[0m\n";
+		printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
 		echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
     		eval "$(/opt/homebrew/bin/brew shellenv)";
 		. "$HOME"/.zprofile;
-
-	    elif [[ "$OSTYPE" = "linux" ]]; then # Linux x86_64
-		printf "\e[33mInstalling build tools (requires sudo).\e[0m\n";
-		if [[ "$DISTRO" = "rhel" || "$DISTRO" = "fedora" ]]; then
-		    # <wip: 1>
-		    sudo yum groupinstall 'Development Tools';
-		    sudo yum install procps-ng file; 
-		elif [[ "$DISTRO" = "kali" || "$DISTRO" = "ubuntu" || $DISTRO = "debian" ]]; then
-		    sudo apt-get install build-essential procps file;
-		fi
-		/bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)";
-		printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
-		echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile;
-		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)";
-		. "$HOME"/.bash_profile;
-		printf "\e[33mInstalling GCC.\e[0m\n";
-		brew install gcc;
 	    fi
 	else
 	    return 0;
@@ -111,28 +93,45 @@ init_brew() {
     else
 	printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n";
     fi
-    
-    ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew bundle;
+    # brew bundle with verbose output hangs when installing packages 
+    # ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew -v bundle;
     return 0;
 }
 
-# OSTYPE ARCH CHECK
+# setup_linux() {
+# 	    	[[ "$OSTYPE" = "linux" ]]; then # Linux x86_64
+# 	        printf "\e[33mInstalling build tools (requires sudo).\e[0m\n";
+# 	        if [[ "$DISTRO" = "rhel" || "$DISTRO" = "fedora" ]]; then
+# 	            sudo yum groupinstall 'Development Tools';
+# 	            sudo yum install procps-ng file; 
+# 	        elif [[ "$DISTRO" = "kali"* || "$DISTRO" = "ubuntu"* || $DISTRO = "debian"* ]]; then
+# 	            sudo apt-get install build-essential procps file;
+# 	        fi
+# 	        /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)";
+# 	        printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
+# 	        echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile;
+# 	        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)";
+# 	        . "$HOME"/.bash_profile;
+# 	        printf "\e[33mInstalling GCC.\e[0m\n";
+# 	        brew install gcc;
+# }
+
 # load_viz $@;
 # load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt;
 
-[[ "$ARCH" = "unknown" ]] && ARCH=$(uname -m | tr "[:upper:]" "[:lower:]");
 
+# Operating System type and Architecture check.
 if [[ "$OSTYPE" = "darwin" ]]; then
-    init_brew;
+    setup_osx;
 elif [[ "$OSTYPE" = "linux" ]]; then
-    DISTRO="$(cat < /etc/os-release | grep -w ID | cut -d "=" -f 2 | cut -d "\"" -f 2)";
-    [[ "$ARCH" = "x86_64" ]] && init_brew || printf "\e[31m%s-%s [%s] is not supported.\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
+    DISTRO="$(cat < "/etc/os-release" | grep -w "ID" | tr -d "A-Z=")-";
+    printf "\e[31mNot supported, please use the intended package manager for %s%s [%s] to install packages.\e[0m\n" "$DISTRO" "$OSTYPE" "$ARCH";
 else
     printf "\e[31m%s [%s] is not supported.\e[0m\n" "$OSTYPE" "$ARCH";
 fi
 
-# ...
-ask_prompt "Do you want to remove setuplog?" && printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
+# Remove setup log
+ask_prompt "Do you want to remove the setup log file?" && printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
 
 unset OSTYPE ARCH DISTRO;
 unset -f ask_prompt load_viz init_brew;

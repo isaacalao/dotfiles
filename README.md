@@ -2,29 +2,39 @@
 
 ## Prerequisite(s)
 ### Apple
-* Install Apple's CLI tools.
+
+  * Install Apple's CLI tools
+
+```sh
+xcode-select --install;
 ```
- xcode-select --install
-```
+
 ### Linux
-* Install git & curl
-	* `apt based distros:`
-	  ``` 
- 	  sudo apt-get update;
- 	  sudo apt-get upgrade; 
- 	  sudo apt-get install git curl;
-	  ```
-	* `RPM based distros:`
-	  ```
- 	  sudo yum install git curl;
-	  ```
-## Caveat(s)
-* No support for linux `aarch/arm64`
-## Visual(s)
-…
+
+  * Install git & curl
+
+`apt based distros:`
+
+```sh 
+sudo apt-get update;
+sudo apt-get upgrade; 
+sudo apt-get install git curl;
+```
+
+`RPM based distros:`
+
+```sh
+sudo yum install git curl;
+```
+
+## Caveats(s)
+  * For macOS versions <= Catalina:
+    * make sure the default shell is set [`zsh`](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
+	  * `zsh` is shipped with Catalina by default
+    * homebrew support for these versions is most likely unavailable
+    * some packages may not work
 
 ## TODO(s)
-
-* Complete write up for [`setup.sh`](./setup.sh)
-  * Finish `<wip: 1>`
-* …
+[`setup.sh`](./setup.sh)
+  * Create setup function for linux
+  * Create symbolic link function to handle linking of multiple files/directories
