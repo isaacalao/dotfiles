@@ -12,7 +12,8 @@ screencap() {
     local argseq="-"
 
     for arg in ${@}; do
-	[ $arg = "vid" ] || [ $arg = "clicks" ] && argseq="${argseq}${arg:0:1}" 
+	[ $arg = "vid" ] && argseq="${argseq}${arg:0:1}g" || 
+	[ $arg = "clicks" ] && argseq="${argseq}k"
     done;
 
     [ ${#argseq} -gt 1 ] && /usr/sbin/screencapture "$argseq" "$(date).mp4" 
