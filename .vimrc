@@ -14,6 +14,7 @@ set wrap!
 
 " Set line numbering.
 set number
+
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---" 
 
 

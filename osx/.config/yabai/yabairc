@@ -1,4 +1,4 @@
-YABAI_APP_LIST="(KeyCastr|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes)"
+YABAI_APP_LIST="(KeyCastr|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My)"
 # Layouts: stack, bsp (binary space paritioning), float
 yabai -m config layout bsp
 yabai -m config auto_balance on

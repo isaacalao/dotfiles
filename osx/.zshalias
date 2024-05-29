@@ -7,6 +7,16 @@ wttr() { curl "https://wttr.in/$1"; }
 chtsh() { curl "https://cht.sh/$1"; }
 mkcd() { mkdir -p "$@" && cd "$_"; }
 editalias() { vim "$HOME/.zshalias" && . "$HOME/.zshalias" && printf "\"$(printf $HOME/.zshalias | basename "$HOME/.zshalias")\", sourced\n"; }
+screencap() {
+    [ -f /usr/sbin/screencapture ] || exit $?
+    local argseq="-"
+
+    for arg in ${@}; do
+	[ $arg = "vid" ] || [ $arg = "clicks" ] && argseq="${argseq}${arg:0:1}" 
+    done;
+
+    [ ${#argseq} -gt 1 ] && /usr/sbin/screencapture "$argseq" "$(date).mp4" 
+}
 
 # Aliases
 alias ..="cd .."
