@@ -13,7 +13,7 @@ screencap() {
 
     for arg in ${@}; do
 	[ ${arg:0:1} = "v" ] && argseq="${argseq}${arg:0:1}" || 
-	[ ${arg:0:1} = "a" ] && argseq="${argseq}${arg:0:1}g" || 
+	[ ${arg:0:1} = "a" ] && argseq="${argseq}g" || 
 	[ ${arg:0:1} = "c" ] && argseq="${argseq}k"
     done;
 
