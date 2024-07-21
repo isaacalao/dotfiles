@@ -1,4 +1,4 @@
-YABAI_APP_LIST="(KeyCastr|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My)"
+YABAI_APP_LIST="(KeyCastr|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|FaceTime|OBS|QuickTime Player)"
 # Layouts: stack, bsp (binary space paritioning), float
 yabai -m config layout bsp
 yabai -m config auto_balance on
@@ -13,7 +13,7 @@ yabai -m config window_gap 14
 
 # mouse settings
 yabai -m config mouse_follows_focus on
-yaabai -m config mouse_modifier alt
+yabai -m config mouse_modifier alt
 
 # left click + drag
 yabai -m config mouse_action1 move
@@ -21,11 +21,9 @@ yabai -m config mouse_action1 move
 # right click + drag
 yabai -m config mouse_action2 resize
 
-yabai -m mouse_drag_action swap
-
 # Disable specific apps
 yabai -m rule --add app="^${YABAI_APP_LIST}$" manage=off
 
 # JankyBorders
 # AARRGGBB
-borders active_color=0x99c3efff inactive_color=0x0096b5ac width=5.0 &
+borders active_color=0xf040be27 inactive_color=0x0 width=6.0 &
