@@ -37,8 +37,8 @@ keystroke() {
 # TODO(isaacalao): make this cleaner
 scrncap() {
   [ -f /usr/sbin/screencapture ] && { \
-    local argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m"
-    local options=( "${faint}video${reset}" "${faint}audio${reset}" "${faint}click${reset}" ) 
+    local argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
+    local options=( "${faint}"{video,audio,click}"${reset}")
     readonly red green faint reset
 
     for arg in ${@}; do
