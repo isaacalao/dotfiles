@@ -6,7 +6,12 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 wttr() { curl "https://wttr.in/$1"; }
 chtsh() { curl "https://cht.sh/$1"; }
 mkcd() { mkdir -p "$@" && cd "$_"; }
-editalias() { vim "$HOME/.zshalias" && . "$HOME/.zshalias" && printf "\"$(printf $HOME/.zshalias | basename "$HOME/.zshalias")\", sourced\n"; }
+
+editalias() { 
+    vim "$HOME/.zshalias" && . "$HOME/.zshalias" \
+	&& printf "\"$(printf $HOME/.zshalias | basename "$HOME/.zshalias")\", sourced\n"; 
+}
+
 screencap() {
     [ -f /usr/sbin/screencapture ] || exit $?
     local argseq="-"
@@ -20,30 +25,27 @@ screencap() {
     [ ${#argseq} -gt 1 ] && /usr/sbin/screencapture "$argseq" "$(date).mp4" 
 }
 
-# Aliases
-alias ..="cd .."
-alias ls="exa --tree -L 1"
-alias nc="ncat"
-alias cat="bat"
-alias clr="clear"
-alias dirs="dirs -v"
-alias tree="exa --tree"
-alias nano="nano -l"
-alias diff="diff --color=always"
-alias grep="grep --color=always"
+obsidian() { 
+    local app_name="Obsidian"
+    local obsidian_running="$(ps x | grep "${app_name}" | grep -cv grep)"
 
-# OSX
-# Funcs
-# play_tune() {
-#  tune=(/var/mp3/tunes/*);
-# 
-#  for idx in $(seq $#tune); 
-#  do
-#   [[ $(echo $tune[$idx] | grep "Chime2") ]] && (afplay $tune[$idx] &) > /dev/null 2>&1
-#  done
-# 
-#  unset idx tune;
-# }
+    if [ $((obsidian_running)) -ge 1 ]; then
+	killall "${app_name}"
+    else
+	open -a "${app_name}"
+    fi
+}
+
+keystroke() { 
+    local app_name="Keystroke Pro" 
+    local keystroke_running="$(ps x | grep "${app_name}" | grep -cv grep)"
+
+    if [ $((keystroke_running)) -ge 1 ]; then
+	killall "${app_name}"
+    else
+	open -a "${app_name}"
+    fi
+}
 
 battery() {
     bgclr="\x1B[30m"
@@ -66,9 +68,29 @@ battery() {
     return 0;
 }
 
+: ' Old
+play_tune() {
+  tune=(/var/mp3/tunes/*);
+ 
+  for idx in $(seq $#tune); 
+  do
+   [[ $(echo $tune[$idx] | grep "Chime2") ]] && (afplay $tune[$idx] &) > /dev/null 2>&1
+  done
+ 
+  unset idx tune;
+} '
+
+
 # Aliases
+alias ..="cd .."
+alias ls="exa --tree -L 1"
+alias nc="ncat"
+alias cat="bat"
+alias clr="clear"
+alias dirs="dirs -v"
+alias tree="exa --tree"
+alias nano="nano -l"
+alias diff="diff --color=always"
+alias grep="grep --color=always"
 alias openvpn="sudo openvpn"
-alias keycast="open -a Keycastr"
 alias pbclear="pbcopy < /dev/null"
-#alias bpy-docs="open /opt/homebrew/Caskroom/blender/BPY\ API/index.html"
-#alias discord="(/Applications/Discord\ PTB.app/Contents/MacOS/Discord\ PTB &) > /dev/null 2>&1"

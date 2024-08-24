@@ -8,8 +8,8 @@
 " syntax enable
 
 " Set indenting
-filetype indent on
-set shiftwidth=4 smarttab ai
+"filetype indent on
+"set shiftwidth=2 smarttab ai
 set wrap!
 
 " Set line numbering.

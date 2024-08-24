@@ -6,6 +6,7 @@
 # MISC
 printf "████████████████████ %s\n" "$(date)" >> setuplog.txt; # Distinguish each setup instance
 
+# TODO(isaacalao) refactor this entire script and use styleguides
 # Globals 
 ARCH=$([[ "$(uname -p | tr "[:upper:]" "[:lower:]")" = "unknown" ]] && uname -m | tr "[:upper:]" "[:lower:]" || uname -p | tr "[:upper:]" "[:lower:]")
 OSTYPE=$(uname | tr "[:upper:]" "[:lower:]");
