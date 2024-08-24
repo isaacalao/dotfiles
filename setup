@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-# TODO(isaacalao) refactor this entire script and use styleguide
+# TODO(isaacalao): refactor this entire script and use styleguide
 #
 # DESCRIPTION: Automate the installation of my environment on supported platforms
 # https://www.shellcheck.net/

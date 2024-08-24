@@ -12,19 +12,6 @@ editalias() {
 	&& printf "\"$(printf $HOME/.zshalias | basename "$HOME/.zshalias")\", sourced\n"; 
 }
 
-screencap() {
-    [ -f /usr/sbin/screencapture ] || exit $?
-    local argseq="-"
-
-    for arg in ${@}; do
-	[ ${arg:0:1} = "v" ] && argseq="${argseq}${arg:0:1}" || 
-	[ ${arg:0:1} = "a" ] && argseq="${argseq}g" || 
-	[ ${arg:0:1} = "c" ] && argseq="${argseq}k"
-    done;
-
-    [ ${#argseq} -gt 1 ] && /usr/sbin/screencapture "$argseq" "$(date).mp4" 
-}
-
 obsidian() { 
     local app_name="Obsidian"
     local obsidian_running="$(ps x | grep "${app_name}" | grep -cv grep)"
@@ -47,10 +34,35 @@ keystroke() {
     fi
 }
 
+# TODO(isaacalao): make this cleaner
+scrncap() {
+  [ -f /usr/sbin/screencapture ] && { \
+    local argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m"
+    local options=( "${faint}video${reset}" "${faint}audio${reset}" "${faint}click${reset}" ) 
+    readonly red green faint reset
+
+    for arg in ${@}; do
+      [[ ${arg:0:1} == "v" && "${argseq}" != *"v"* ]] && { options[1]="${green}video${reset}"; argseq="${argseq}${arg:0:1}"; continue; } || \
+      [[ ${arg:0:1} == "a" && "${argseq}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argseq="${argseq}g"; continue; } || \
+      [[ ${arg:0:1} == "c" && "${argseq}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argseq="${argseq}k"; continue; }
+    done;
+
+    local ext=$([[ ${argseq} == *"v"* ]] && printf "mov" || printf "png");
+
+    printf " 
+      Options enabled: ${options[*]} -> ${argseq:-${faint}NULL${reset}}  
+      Extension: ${ext}
+    \n"
+
+    [ ${#argseq} -gt 1 ] && /usr/sbin/screencapture "-${argseq}" "$(date).${ext}" 
+
+  } || return $?
+}
+
 battery() {
-    bgclr="\x1B[30m"
-    ascii_bar_color=("\x1B[3"{1..3}"m")
-    ascii_bar=(▄ ▅ ▆ ▇ █)
+    local bgclr="\x1B[30m" \
+    ascii_bar_color=("\x1B[3"{1..3}"m") \
+    ascii_bar=(▄ ▅ ▆ ▇ █) \
     residual="$(/usr/sbin/ioreg -c AppleSmartBattery -w0 | grep -w CurrentCapacity | tr -d " " | cut -d "=" -f2)"
     
     if test $residual -le 25; then
