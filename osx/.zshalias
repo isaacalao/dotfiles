@@ -36,9 +36,9 @@ keystroke() {
 
 # TODO(isaacalao): make this cleaner
 scrncap() {
-  [ -f /usr/sbin/screencapture ] && { \
-    local argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
-    local options=( "${faint}"{video,audio,click}"${reset}")
+  [ -f /usr/sbin/screencapture ] && { 
+    local ext="" argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
+    local options=( "${faint}"{video,audio,click}"${reset}" )
     readonly red green faint reset
 
     for arg in ${@}; do
@@ -47,14 +47,21 @@ scrncap() {
       [[ ${arg:0:1} == "c" && "${argseq}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argseq="${argseq}k"; continue; }
     done;
 
-    local ext=$([[ ${argseq} == *"v"* ]] && printf "mov" || printf "png");
+
+    if [[ "${argseq}" == *"v"* ]]; then
+      ext="mov"
+    elif [[ "${argseq}" == *[kg]* ]]; then
+      ext="png"
+    else
+      return $?
+    fi
 
     printf " 
       Options enabled: ${options[*]} -> ${argseq:-${faint}NULL${reset}}  
-      Extension: ${ext}
+      Extension: ${ext:-${faint}NULL${reset}}
     \n"
 
-    [ ${#argseq} -gt 1 ] && /usr/sbin/screencapture "-${argseq}" "$(date).${ext}" 
+    [ ${#argseq} -ge 1 ] && /usr/sbin/screencapture "-${argseq}" "$(date).${ext}" 
 
   } || return $?
 }
