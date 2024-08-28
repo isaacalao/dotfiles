@@ -9,29 +9,29 @@ mkcd() { mkdir -p "$@" && cd "$_"; }
 
 editalias() { 
     vim "$HOME/.zshalias" && . "$HOME/.zshalias" \
-	&& printf "\"$(printf $HOME/.zshalias | basename "$HOME/.zshalias")\", sourced\n"; 
+	&& printf "\"$(basename "${HOME}/.zshalias")\", updated and sourced.\n"; 
 }
 
 obsidian() { 
-    local app_name="Obsidian"
-    local obsidian_running="$(ps x | grep "${app_name}" | grep -cv grep)"
+  local app_name="Obsidian"
+  local obsidian_running="$(ps x | grep "${app_name}" | grep -cv grep)"
 
-    if [ $((obsidian_running)) -ge 1 ]; then
-	killall "${app_name}"
-    else
-	open -a "${app_name}"
-    fi
+  if [ $((obsidian_running)) -ge 1 ]; then
+    killall "${app_name}"
+  else
+	  open -a "${app_name}"
+  fi
 }
 
 keystroke() { 
-    local app_name="Keystroke Pro" 
-    local keystroke_running="$(ps x | grep "${app_name}" | grep -cv grep)"
-
-    if [ $((keystroke_running)) -ge 1 ]; then
-	killall "${app_name}"
-    else
-	open -a "${app_name}"
-    fi
+  local app_name="Keystroke Pro" 
+  local keystroke_running="$(ps x | grep "${app_name}" | grep -cv grep)"
+  
+  if [ $((keystroke_running)) -ge 1 ]; then
+    killall "${app_name}"
+  else
+    open -a "${app_name}"
+  fi
 }
 
 # TODO(isaacalao): make this cleaner

@@ -1,19 +1,14 @@
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---"
-" 		    	vim settings 			"
+"		    	vim settings 			"
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---"
-" Sets the default vim settings. 
-" source $VIMRUNTIME/defaults.vim
 
-" Enable syntax highlighting.
-" syntax enable
-
-" Set indenting
-"filetype indent on
-"set shiftwidth=2 smarttab ai
-set wrap!
-
-" Set line numbering.
-set number
+" Vim Options
+set wrap! " Set to no line wrap
+set number " Set line numbers
+set expandtab " Translate tabs to spaces
+set tabstop=2 " Defines how many columns a tab should be made up of
+set shiftwidth=2 " Set to the same value as tabstop for consistent indentation
+set textwidth=80 " Max column length
 
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---" 
 
@@ -26,7 +21,8 @@ set number
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 " Declare the list of plugins.
 " Plug 'rust-lang/rust.vim'
- Plug 'junegunn/seoul256.vim'
+  Plug 'junegunn/seoul256.vim'
+  Plug 'junegunn/goyo.vim'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
 " Plug 'prabirshrestha/asyncomplete.vim'
