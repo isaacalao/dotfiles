@@ -54,10 +54,10 @@ setup_osx() {
         . "$HOME"/.zprofile;
       fi
     else
-	    return 0;
+      return 0;
 	  fi
   else
-	  printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n";
+    printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n";
   fi
 # brew bundle with verbose output hangs when installing packages 
 # ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew -v bundle;

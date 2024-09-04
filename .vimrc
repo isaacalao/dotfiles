@@ -9,7 +9,6 @@ set expandtab " Translate tabs to spaces
 set tabstop=2 " Defines how many columns a tab should be made up of
 set shiftwidth=2 " Set to the same value as tabstop for consistent indentation
 set textwidth=80 " Max column length
-set title
 
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---" 
 
