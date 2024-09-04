@@ -1,5 +1,7 @@
 [user]
-	name = isaacalao
-	email = 88806554+isaacalao@users.noreply.github.com
+  name = isaacalao
+  email = 88806554+isaacalao@users.noreply.github.com
 [core]
-	editor = vim 
+  editor = vim 
+[http]
+  postBuffer = 524288000

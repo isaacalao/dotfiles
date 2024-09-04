@@ -61,7 +61,7 @@ scrncap() {
       Extension: ${ext:-${faint}NULL${reset}}
     \n"
 
-    [ ${#argseq} -ge 1 ] && /usr/sbin/screencapture "-${argseq}" "$(date).${ext}" 
+    [ ${#argseq} -ge 1 ] && /usr/sbin/screencapture "-${argseq}" "$([ -n "${@[$#@]}" ] && printf "%s" "${@[$#@]}" || date).${ext}" 
 
   } || return $?
 }

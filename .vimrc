@@ -9,6 +9,7 @@ set expandtab " Translate tabs to spaces
 set tabstop=2 " Defines how many columns a tab should be made up of
 set shiftwidth=2 " Set to the same value as tabstop for consistent indentation
 set textwidth=80 " Max column length
+set title
 
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---" 
 
@@ -20,15 +21,10 @@ set textwidth=80 " Max column length
 " Plugins will be downloaded under the specified directory.
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 " Declare the list of plugins.
-" Plug 'rust-lang/rust.vim'
   Plug 'junegunn/seoul256.vim'
   Plug 'junegunn/goyo.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " Conquer of Complete
- Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 "--- --- --- --- --- --- END --- --- --- --- --- --- ---" 
@@ -38,7 +34,7 @@ call plug#end()
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---"
 " Theme
 set background=dark
-colo seoul256
+colo slate
 
 " Rust lang server
 " if executable('rust-analyzer')
