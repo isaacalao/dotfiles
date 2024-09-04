@@ -29,6 +29,6 @@ sudo apt-get install git curl;
     * homebrew support for these versions is most likely unavailable
 
 ## TODO(s)
-[`setup.sh`](./setup.sh)
+[`setup`](./setup)
   * Create setup function for linux
   * Create symbolic link function to handle linking of multiple files/directories
