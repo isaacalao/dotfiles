@@ -9,7 +9,6 @@ set expandtab " Translate tabs to spaces
 set tabstop=2 " Defines how many columns a tab should be made up of
 set shiftwidth=2 " Set to the same value as tabstop for consistent indentation
 set textwidth=80 " Max column length
-
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---" 
 
 
@@ -28,21 +27,13 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 call plug#end()
 "--- --- --- --- --- --- END --- --- --- --- --- --- ---" 
 
+
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---"
 " 		    vim-plug configs 			"
 "--- --- --- --- --- --- --- --- --- --- --- --- --- ---"
 " Theme
 set background=dark
-colo slate
-
-" Rust lang server
-" if executable('rust-analyzer')
-"   au User lsp_setup call lsp#register_server({
-"         \   'name': 'Rust Language Server',
-"         \   'cmd': {server_info->['rust-analyzer']},
-"         \   'whitelist': ['rust'],
-"         \ })
-" endif
+colo habamax 
 
 " Conquer of Completion
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
