@@ -1,4 +1,4 @@
-YABAI_APP_LIST="(Keystroke Pro|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|FaceTime|OBS|QuickTime Player|Preview)"
+YABAI_APP_LIST="(iPhone Mirroring|Keystroke Pro|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|FaceTime|OBS|QuickTime Player|Preview)"
 # Layouts: stack, bsp (binary space paritioning), float
 yabai -m config layout bsp
 yabai -m config auto_balance on
@@ -26,4 +26,4 @@ yabai -m rule --add app="^${YABAI_APP_LIST}$" manage=off
 
 # JankyBorders
 # AARRGGBB
-borders active_color=0xf040be27 inactive_color=0x0 width=6.0 &
+borders active_color=0xf040be27 inactive_color=0x0 width=7.0 corners blacklist="iPhone Mirroring" &

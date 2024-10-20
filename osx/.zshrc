@@ -24,6 +24,7 @@ gpg-connect-agent updatestartuptty /bye >/dev/null;
 #--- --- --- --- --- --- END --- --- --- --- --- --- ---# 
 
 
+. <(fzf --zsh)
 . "${HOME}/.git-prompt.sh";
 . "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
 export PATH="${PATH}:/usr/local/mybin:/opt/homebrew/opt/openvpn/sbin:/opt/homebrew/bin/nano:${HOME}/cargo/bin/rust-analyzer";
