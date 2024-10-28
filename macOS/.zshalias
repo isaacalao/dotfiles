@@ -16,6 +16,7 @@ alias openvpn="sudo openvpn"
 alias pbclear="pbcopy < /dev/null"
 
 # Functions
+
 wttr() { curl -s "https://wttr.in/${1}"; return $? }
 
 chtsh() { IFS="/"; curl -s "https://cht.sh/${*}"; return $? }
@@ -118,6 +119,14 @@ battery() {
   fi 
   	
   return $?
+}
+
+vim() { 
+  if [ ${#@} -gt 0 ]; then
+    nvim ${@}
+  else
+    nvim "${PWD}"
+  fi
 }
 
 : ' Old
