@@ -38,7 +38,7 @@ mknote() {
 
 editalias() { 
   vim "$HOME/.zshalias" && . "$HOME/.zshalias" \
-	&& printf "\"$(basename "${HOME}/.zshalias")\", updated and sourced.\n"; 
+	&& printf "\"%s\", updated and sourced.\n" "$(basename "${HOME}/.bash_aliases")";
 
   return $?
 }
@@ -123,7 +123,7 @@ battery() {
 
 vim() { 
   if [ ${#@} -gt 0 ]; then
-    nvim ${@}
+    nvim "${@}"
   else
     nvim "${PWD}"
   fi
