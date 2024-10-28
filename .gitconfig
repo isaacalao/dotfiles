@@ -2,7 +2,7 @@
   name = isaacalao
   email = 88806554+isaacalao@users.noreply.github.com
 [core]
-  editor = vim 
+  editor = nvim
 [http]
   postBuffer = 524288000
 [credential "https://github.com"]
