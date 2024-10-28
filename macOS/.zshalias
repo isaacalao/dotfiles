@@ -26,19 +26,19 @@ mkcd() { mkdir -p "$@" && cd "$_";  return $? }
 mknote() {
   local num_line=1
   printf "Press ctrl-d to exit.\nNOTE:\n"
-  printf "${num_line} " 
+  printf "%s" "${num_line} " 
   while read line; do
     num_line=$((num_line+1))
-    printf "${num_line} " 
+    printf "%s" "${num_line} " 
     if [ ${#@} -gt 0 ]; then
-      printf "${line}\n" >> "${1}" 
+      printf "%s" "${line}\n" >> "${1}" 
     fi
   done
 }
 
 editalias() { 
   vim "$HOME/.zshalias" && . "$HOME/.zshalias" \
-	&& printf "\"$(basename "${HOME}/.zshalias")\", updated and sourced.\n"; 
+	&& printf "%s" "\"$(basename "${HOME}/.zshalias")\", updated and sourced.\n"; 
 
   return $?
 }
