@@ -10,4 +10,4 @@
   helper = !command gh auth git-credential
 [credential "https://gist.github.com"]
   helper = 
-	helper = !command gh auth git-credential
+  helper = !command gh auth git-credential
