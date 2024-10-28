@@ -6,6 +6,6 @@
 [http]
   postBuffer = 524288000
 [credential "https://github.com"]
-	helper = "!$(/usr/bin/which gh) auth git-credential" 
+  helper = !command gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = "!$(/usr/bin/which gh) auth git-credential"
+	helper = !command gh auth git-credential
