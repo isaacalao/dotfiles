@@ -38,7 +38,7 @@ mknote() {
 
 editalias() { 
   vim "$HOME/.zshalias" && . "$HOME/.zshalias" \
-	&& printf "\"%s\", updated and sourced.\n" "$(basename "${HOME}/.bash_aliases")";
+	&& printf "\"%s\", updated and sourced.\n" "$(basename "${HOME}/.zshalias")";
 
   return $?
 }
@@ -122,10 +122,16 @@ battery() {
 }
 
 vim() { 
-  if [ ${#@} -gt 0 ]; then
-    nvim "${@}"
+  if [ -x "$(which nvim)" ]; then
+    if [ ${#@} -gt 0 ]; then
+      nvim "${@}"
+    else
+      nvim "${PWD}"
+    fi
+    return ${?}
   else
-    nvim "${PWD}"
+    printf "nvim is not installed\n"
+    return 127
   fi
 }
 

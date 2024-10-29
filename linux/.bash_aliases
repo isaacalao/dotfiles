@@ -11,7 +11,7 @@ alias ls="exa --tree -L 1"
 alias diff="diff --color=always"
 
 k() {
-  if [ -e "$(whereis kubectl | awk '{ print $2 }')" ]; then
+  if [ -x "$(which kubectl)" ]; then
     kubectl "${@}";
     return ${?}
   else
@@ -46,14 +46,14 @@ chtsh() {
 }
 
 editalias() { 
-  vim "$HOME/.bash_aliases" && . "$HOME/.bash_aliases" \
+  vim "${HOME}/.bash_aliases" && . "${HOME}/.bash_aliases" \
 	  && printf "\"%s\", updated and sourced.\n" "$(basename "${HOME}/.bash_aliases")"; 
 
   return $?
 }
 
 vim() { 
-  if [ -e "$(which nvim)" ]; then
+  if [ -x "$(which nvim)" ]; then
     if [ ${#@} -gt 0 ]; then
       nvim "${@}"
     else
