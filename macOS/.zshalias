@@ -45,9 +45,9 @@ editalias() {
 
 obsidian() { 
   local app_name="Obsidian"
-  local obsidian_running="$(ps x | grep "${app_name}" | grep -cv grep)"
+  local obsidian_running="$(pgrep -qi "${app_name}"; printf "${?}")"
 
-  if [ $((obsidian_running)) -ge 1 ]; then
+  if [ $((obsidian_running)) -eq 0 ]; then
     killall "${app_name}"
   else
 	  open -a "${app_name}"
@@ -58,9 +58,9 @@ obsidian() {
 
 keystroke() { 
   local app_name="Keystroke Pro" 
-  local keystroke_running="$(ps x | grep "${app_name}" | grep -cv grep)"
+  local keystroke_running="$(pgrep -qi "${app_name}"; printf "${?}")"
   
-  if [ $((keystroke_running)) -ge 1 ]; then
+  if [ $((keystroke_running)) -eq 0 ]; then
     killall "${app_name}"
   else
     open -a "${app_name}"
@@ -69,18 +69,27 @@ keystroke() {
   return $?
 }
 
-# TODO(isaacalao): make this cleaner
 scrncap() {
-  [ -f /usr/sbin/screencapture ] && { 
+    [ -f /usr/sbin/screencapture ] && { 
+    local argc="${#@}"
     local ext="" argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
     local options=( "${faint}"{video,audio,click}"${reset}" )
     readonly red green faint reset
+    
+    # E.g.,
+    # SCRNCAP_ALL_OPT="vgk" scrncap "<file-name>"
 
-    for arg in ${@}; do
-      [[ ${arg:0:1} == "v" && "${argseq}" != *"v"* ]] && { options[1]="${green}video${reset}"; argseq="${argseq}${arg:0:1}"; continue; } || \
-      [[ ${arg:0:1} == "a" && "${argseq}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argseq="${argseq}g"; continue; } || \
-      [[ ${arg:0:1} == "c" && "${argseq}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argseq="${argseq}k"; continue; }
-    done;
+    if [ "${SCRNCAP_ALL_OPT}" = "vgk" ]; then
+      argc="$((${#SCRNCAP_ALL_OPT}+${#@}))"
+      argseq="${SCRNCAP_ALL_OPT}"
+      options=( "${green}"{video,audio,click}"${reset}" )
+    else
+      for arg in ${@}; do
+        [[ ${arg:0:1} == "v" && "${argseq}" != *"v"* ]] && { options[1]="${green}video${reset}"; argseq="${argseq}${arg:0:1}"; continue; } || \
+        [[ ${arg:0:1} == "a" && "${argseq}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argseq="${argseq}g"; continue; } || \
+        [[ ${arg:0:1} == "c" && "${argseq}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argseq="${argseq}k"; continue; }
+      done;
+    fi
 
     if [[ "${argseq}" == *"v"* ]]; then
       ext="mov"
@@ -95,7 +104,7 @@ scrncap() {
       Extension: ${ext:-${faint}NULL${reset}}
     \n"
 
-    [ ${#argseq} -ge 1 ] && /usr/sbin/screencapture "-${argseq}" "$([ -n "${@[$#@]}" ] && printf "%s" "${@[$#@]}" || date).${ext}" 
+    [ ${#argseq} -ge 1 ] && /usr/sbin/screencapture "-${argseq}" "$([ ${#argseq} -lt ${argc} ] && printf "%s" "${@[$#@]}" || date).${ext}" 
 
   } || return $?
 }
@@ -122,7 +131,7 @@ battery() {
 }
 
 vim() { 
-  if [ -x "$(which nvim)" ]; then
+  if [ -x "$(whereis nvim | awk '{ print $2 }')" ]; then
     if [ ${#@} -gt 0 ]; then
       nvim "${@}"
     else
