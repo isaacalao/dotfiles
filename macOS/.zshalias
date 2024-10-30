@@ -50,7 +50,7 @@ obsidian() {
   if [ $((obsidian_running)) -eq 0 ]; then
     killall "${app_name}"
   else
-	  open -a "${app_name}"
+    open -a "${app_name}"
   fi
 
   return $?
