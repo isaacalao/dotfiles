@@ -11,7 +11,7 @@ alias ls="exa --tree -L 1"
 alias diff="diff --color=always"
 
 k() {
-  if [ -x "$(which kubectl)" ]; then
+  if [ -x "$(whereis kubectl | awk '{ print $2 }')" ]; then
     kubectl "${@}";
     return ${?}
   else
@@ -53,7 +53,7 @@ editalias() {
 }
 
 vim() { 
-  if [ -x "$(which nvim)" ]; then
+  if [ -x "$(whereis nvim | awk '{ print $2 }')" ]; then
     if [ ${#@} -gt 0 ]; then
       nvim "${@}"
     else
