@@ -90,6 +90,7 @@ local cmp = require('cmp')
 cmp.setup({
   sources = {
     {name = 'nvim_lsp'},
+    {name = 'luasnip'},
   },
   mapping = cmp.mapping.preset.insert({
     -- `Enter` key to confirm completion

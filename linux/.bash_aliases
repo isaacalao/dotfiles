@@ -1,5 +1,13 @@
 export KUBECONFIG="${HOME}/.kube/config"
 
+if [ ! -d "${HOME}/mongo_databases" ]; then 
+  # This gets executed only once unless the path doesnt exist.
+  export MONGO_DB_ROOT_PATH="${HOME}/mongo_databases"
+  mkdir -pv "${MONGO_DB_ROOT_PATH}"
+else
+  export MONGO_DB_ROOT_PATH="${HOME}/mongo_databases"
+fi
+
 alias kns="k get ns"
 alias kctx="kubectx"
 alias kconf="k config view"
@@ -16,6 +24,16 @@ k() {
     return ${?}
   else
     printf "kubectl is not installed\n"
+    return 127
+  fi
+}
+
+tf() {
+  if [ -x "$(whereis terraform | awk '{ print $2 }')" ]; then
+    terraform "${@}";
+    return ${?}
+  else
+    printf "terraform is not installed\n"
     return 127
   fi
 }
@@ -64,4 +82,14 @@ vim() {
     printf "nvim is not installed\n"
     return 127
   fi
+}
+
+gh_switch_user() {
+  if [ "isaacalao" = "$(gh auth status -a | grep --color=none -o isaacalao)" ]; then
+    cat "${HOME}/.gitconfigs/secondary" > "${HOME}/.gitconfig" 
+  else 
+    cat "${HOME}/.gitconfigs/primary" > "${HOME}/.gitconfig" 
+  fi
+
+  gh auth switch || return $?
 }
