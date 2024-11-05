@@ -45,7 +45,7 @@ editalias() {
 
 obsidian() { 
   local app_name="Obsidian"
-  local obsidian_running="$(pgrep -qi "${app_name}"; printf "${?}")"
+  local obsidian_running="$(pgrep -q "${app_name}"; printf "${?}")"
 
   if [ $((obsidian_running)) -eq 0 ]; then
     killall "${app_name}"
@@ -58,7 +58,7 @@ obsidian() {
 
 keystroke() { 
   local app_name="Keystroke Pro" 
-  local keystroke_running="$(pgrep -qi "${app_name}"; printf "${?}")"
+  local keystroke_running="$(pgrep -q "${app_name}"; printf "${?}")"
   
   if [ $((keystroke_running)) -eq 0 ]; then
     killall "${app_name}"
