@@ -23,7 +23,6 @@ export GPG_TTY=$(tty);
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 #--- --- --- --- --- --- END --- --- --- --- --- --- ---# 
 
-
 . <(fzf --zsh)
 . "${HOME}/.git-prompt.sh";
 . "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
