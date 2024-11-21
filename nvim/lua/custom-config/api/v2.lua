@@ -15,5 +15,5 @@ end)
 
 -- Hide Terminal
 vim.keymap.set('t', '<Esc><Esc><Esc>', function()
- vim.cmd("ToggleTerm direction=float")
+ vim.cmd("ToggleTerm")
 end)
