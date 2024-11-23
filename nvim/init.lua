@@ -1,2 +1,2 @@
 require("config.lazy")
-require("custom-config.handler")("api.v2")
+require("api.verify")("v2")

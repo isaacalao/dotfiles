@@ -1,4 +1,4 @@
-# My dotfiles OSX/Linux
+# My dotfiles macOS/Linux
 
 ## Prerequisite(s)
 ### Apple
@@ -22,7 +22,7 @@ sudo apt-get install git curl;
 ```
 
 ## Caveats(s)
-  * For macOS versions $\leq$ Catalina:
+  * For macOS versions ≤ Catalina:
     * make sure the default shell is set to [`zsh`](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 	  * `zsh` is shipped with Catalina by default
     * some packages may not work
