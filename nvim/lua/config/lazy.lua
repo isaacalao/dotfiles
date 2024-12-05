@@ -135,5 +135,5 @@ cmp.setup({
 ---
 
 require('lualine').setup({
-  options = { theme = "gruvbox_dark"}
+  options = { theme = "onedark", section_separators = '', component_separators = '' }
 })
