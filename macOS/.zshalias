@@ -61,41 +61,44 @@ keystroke() {
 scrncap() {
     [ -f /usr/sbin/screencapture ] && { 
     local argc="${#@}"
-    local ext="" argseq="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
+    local ext="" argv="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
     local options=( "${faint}"{video,audio,click}"${reset}" )
     readonly red green faint reset
     
     # E.g.,
-    # SCRNCAP_ALL_OPT="vgk" scrncap "<file-name>"
+    # SCRNCAP_ALL_OPT="true" scrncap "<file-name>"
 
-    if [ "${SCRNCAP_ALL_OPT}" = "vgk" ]; then
-      argc="$((${#SCRNCAP_ALL_OPT}+${#@}))"
-      argseq="${SCRNCAP_ALL_OPT}"
+    if [[ "${SCRNCAP_ALL_OPT}" = [tT][rR][uU][eE] ]]; then
+      readonly local ALL_OPT="vgk"
+      argc="$((${#ALL_OPT}+${#@}))"
+      argv="${ALL_OPT}"
       options=( "${green}"{video,audio,click}"${reset}" )
     else
       for arg in ${@}; do
-        [[ ${arg:0:1} == "v" && "${argseq}" != *"v"* ]] && { options[1]="${green}video${reset}"; argseq="${argseq}${arg:0:1}"; continue; } || \
-        [[ ${arg:0:1} == "a" && "${argseq}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argseq="${argseq}g"; continue; } || \
-        [[ ${arg:0:1} == "c" && "${argseq}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argseq="${argseq}k"; continue; }
+        [[ ${arg:0:1} == "v" && "${argv}" != *"v"* ]] && { options[1]="${green}video${reset}"; argv="${argv}${arg:0:1}"; continue; } || \
+        [[ ${arg:0:1} == "a" && "${argv}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argv="${argv}g"; continue; } || \
+        [[ ${arg:0:1} == "c" && "${argv}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argv="${argv}k"; continue; }
       done;
     fi
 
-    if [[ "${argseq}" == *"v"* ]]; then
+    if [[ "${argv}" == *"v"* ]]; then
       ext="mov"
-    elif [[ "${argseq}" == *[kg]* ]]; then
+    elif [[ "${argv}" == *[kg]* ]]; then
       ext="png"
     else
       return $?
     fi
 
     printf " 
-      Options enabled: ${options[*]} -> ${argseq:-${faint}NULL${reset}}  
+      Options enabled: ${options[*]} -> ${argv:-${faint}NULL${reset}}  
       Extension: ${ext:-${faint}NULL${reset}}
     \n"
 
-    [ ${#argseq} -ge 1 ] && /usr/sbin/screencapture "-${argseq}" "$([ ${#argseq} -lt ${argc} ] && printf "%s" "${@[$#@]}" || date).${ext}" 
+    [ ${#argv} -ge 1 ] && /usr/sbin/screencapture "-${argv}" "$([ ${#argv} -lt ${argc} ] && printf "%s" "${@[$#@]}" || date).${ext}" 
 
-  } || return $?
+  }
+
+  return $?
 }
 
 battery() {
