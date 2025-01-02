@@ -60,8 +60,8 @@ keystroke() {
 
 scrncap() {
     [ -f /usr/sbin/screencapture ] && { 
-    local argc="${#@}"
-    local ext="" argv="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
+    local argcnt="${#@}"
+    local ext="" argval="" red="\x1B[31m" green="\x1B[32m" faint="\x1B[2m" reset="\x1B[0m" 
     local options=( "${faint}"{video,audio,click}"${reset}" )
     readonly red green faint reset
     
@@ -70,31 +70,32 @@ scrncap() {
 
     if [[ "${SCRNCAP_ALL_OPT}" = [tT][rR][uU][eE] ]]; then
       readonly local ALL_OPT="vgk"
-      argc="$((${#ALL_OPT}+${#@}))"
-      argv="${ALL_OPT}"
+      argcnt="$((${#ALL_OPT}+${#@}))"
+      argval="${ALL_OPT}"
       options=( "${green}"{video,audio,click}"${reset}" )
     else
       for arg in ${@}; do
-        [[ ${arg:0:1} == "v" && "${argv}" != *"v"* ]] && { options[1]="${green}video${reset}"; argv="${argv}${arg:0:1}"; continue; } || \
-        [[ ${arg:0:1} == "a" && "${argv}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argv="${argv}g"; continue; } || \
-        [[ ${arg:0:1} == "c" && "${argv}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argv="${argv}k"; continue; }
+        [[ ${arg:0:1} == "v" && "${argval}" != *"v"* ]] && { options[1]="${green}video${reset}"; argval="${argval}${arg:0:1}"; continue; } || \
+        [[ ${arg:0:1} == "a" && "${argval}" != *"g"* ]] && { options[2]="${green}audio${reset}"; argval="${argval}g"; continue; } || \
+        [[ ${arg:0:1} == "c" && "${argval}" != *"k"*  ]] && { options[3]="${green}click${reset}"; argval="${argval}k"; continue; }
       done;
     fi
 
-    if [[ "${argv}" == *"v"* ]]; then
+    if [[ "${argval}" == *"v"* ]]; then
       ext="mov"
-    elif [[ "${argv}" == *[kg]* ]]; then
+    elif [[ "${argval}" == *[kg]* ]]; then
       ext="png"
     else
       return $?
     fi
 
+
     printf " 
-      Options enabled: ${options[*]} -> ${argv:-${faint}NULL${reset}}  
+      Options enabled: ${options[*]} -> ${argval:-${faint}NULL${reset}}  
       Extension: ${ext:-${faint}NULL${reset}}
     \n"
 
-    [ ${#argv} -ge 1 ] && /usr/sbin/screencapture "-${argv}" "$([ ${#argv} -lt ${argc} ] && printf "%s" "${@[$#@]}" || date).${ext}" 
+    [ ${#argval} -ge 1 ] && /usr/sbin/screencapture "-${argval}" "$([ ${#argval} -lt ${argcnt} ] && printf "%s" "${@[$#@]}" || date).${ext}" 
 
   }
 
