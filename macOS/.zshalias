@@ -3,12 +3,12 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Aliases
 alias ..="cd .."
-alias ls="exa --tree -L 1"
+alias ls="eza --tree -L 1" # exa is no longer maintained
 alias nc="ncat"
 alias cat="bat"
 alias clr="clear"
 alias dirs="dirs -v"
-alias tree="exa --tree"
+alias tree="eza --tree"
 alias nano="nano -l"
 alias diff="diff --color=always"
 alias grep="grep --color=always"
