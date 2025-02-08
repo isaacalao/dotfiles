@@ -37,10 +37,11 @@ ialib::log() {
 
 # Usage: Creates links to config files
 ialib::linkconf() {
-  for file in "${1}"/.*;
+  for file in "${1}"/.*zsh*;
   do
     if [ -f "${file}" ]; then
-      ln -sfv "${file}" "${2}"
+      ialib::prompt "Do you want to create a link for $(basename "${file}")?" && \
+      ialib::log "Linked $(ln -sfv "${file}" "${2}")" info
     fi
   done;
 }
@@ -51,12 +52,10 @@ ialib::prompt() {
   printf "\e[33m%s [y/N]\e[0m\e[34m " "$1";
   read -n 1 -r ans;
 
-  if [ -z "$ans" ]; then
-    if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
-      printf "\e[0m\n";
-    else
-      printf "\e[0m\r\e[1A";
-    fi
+  if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
+    printf "\e[0m\n";
+  else
+    printf "\e[0m\r\e[1A";
   fi
   
   [[ "$ans" = [Yy]* ]] && return 0 || return 1;
