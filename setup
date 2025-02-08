@@ -1,156 +1,85 @@
 #!/bin/env bash
-# TODO(isaacalao): refactor this entire script and use styleguide
-#
-# DESCRIPTION: Automate the installation of my environment on supported platforms
-# https://www.shellcheck.net/
 
-# MISC
-printf "████████████████████ %s\n" "$(date)" >> setuplog.txt; # Distinguish each setup instance
+# DESCRIPTION
+#   Automate the installation of my environment on supported platforms
+#
+# TODO(isaacalao):
+#   refactor this entire script and use styleguide
+
+
+# Import isaacalao library
+source ./ialib.sh;
+
+# Logs each setup instance 
+ialib::loginstance;
 
 # Globals 
-ARCH=$([[ "$(uname -p | tr "[:upper:]" "[:lower:]")" = "unknown" ]] && uname -m | tr "[:upper:]" "[:lower:]" || uname -p | tr "[:upper:]" "[:lower:]")
-OSTYPE=$(uname | tr "[:upper:]" "[:lower:]");
-: "${DISTRO:=NULL}" "${global_pidn:=NULL}";
+ARCH="$(ialib::getarch)";
+OSTYPE="$(ialib::getos)";
+DISTRO="";
 
 # Functions 
-kill_and_exit() {
-  if [ "${global_pidn}" = "NULL" ]; then
-    return;
-  else
-    kill "${global_pidn}";
-    reset; 
-    exit 1;
-  fi
-}
-trap kill_and_exit INT 
-
-# Usage: prompt user, read input, if input matches glob patterns then yield 0 if not then 1 
-ask_prompt() {
-  local ans;
-  while [ -z "$ans" ]; do
-    printf "\e[33m%s [y/N]\e[0m\e[34m " "$1";
-    read -n 1 -r ans;
-    if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
-      printf "\e[0m\n";
-    else
-      printf "\e[0m\r\e[1A";
-    fi 
-  done
-  
-  [[ "$ans" = [Yy]* ]] && return 0 || return 1;
+null_bootstrap() {
+  ialib::log "Not supported, please use the intended package manager for ${DISTRO}${OSTYPE} [${ARCH}] to install packages." warn;
 }
 
-setup_osx() {
-  printf "\e[33mChecking for brew on %s%s [%s].\e[0m\n"\
-      "$DISTRO" "$OSTYPE" "$ARCH";
+osx_bootstrap() {
+  ialib::log "Checking for brew on ${DISTRO}${OSTYPE} [${ARCH}]." warn;
+
   if ! which brew; then
-    printf "\e[31mHOMEBREW IS NOT INSTALLED!\e[0m\n";
-    if ask_prompt "Do you want to install it?"; then
+    ialib::log "HOMEBREW IS NOT INSTALLED!" err;
+
+    if ialib::prompt "Do you want to install it?"; then
       if [[ "$OSTYPE" = "darwin" ]]; then # OSX 10.15 and higher
         /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)";
-        printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
-        echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "$HOME"/.zprofile;
-        eval "$(/opt/homebrew/bin/brew shellenv)";
-        . "$HOME"/.zprofile;
+        ialib::log "Adding Homebrew to your PATH." warn;
+        if [ ! "$(grep -cq "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
+          echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "${HOME}/.zshalias";
+          eval "$(/opt/homebrew/bin/brew shellenv)";
+        fi
+        source "${HOME}/.zshalias";
       fi
     else
-      return 0;
+      ialib::log "User declined to install homebrew." err;
+      return 1;
     fi
   else
-    printf "\e[32mHOMEBREW IS ALREADY INSTALLED!\e[0m\n";
+    ialib::log "HOMEBREW IS ALREADY INSTALLED!" ok;
   fi
-# brew bundle with verbose output hangs when installing packages 
-# ask_prompt "Do you want to initiate brew bundle (may require sudo)?" && brew -v bundle;
+
+# TODO(isaacalao): 
+#   Investigate
+#     brew bundle with verbose output hangs when installing packages 
+#     std::prompt "Do you want to initiate brew bundle (may require sudo)?" && brew -v bundle;
+
   return 0;
 }
 
-load_viz() {     
-  [ "$#" -eq  0 ] && printf "%s" "$# args provided!\n" && return 1;
-  ( "${@}" >> /dev/null 2>&1 )& # Bg subshell
-  global_pidn="$!"; # Acquire the process number
-
-  if [[ "$#" -gt 0 ]]; then
-    loadchar=("/" "-" "\\" "|");
-    viz_flag=0; i=0; j=0;
-    row=$(($(stty size | awk '{print $1}')));
-    printf "\e[?1049h\e[0m\e[2J\e[%s;0H\e[?25l" "${row}"
-    stty -echo
-    
-    while true; do
-      row=$(($(stty size | awk '{print $1}')));
-      col=$(($(stty size | awk '{print $2}')));
-        
-      printf "\e[2J\e[48;5;$((235+i))m%${col}s\e[${row};0H%s %s\e[40m\e[0m\r" ""\
-          "$1" "${loadchar[$((j % ${#loadchar[@]}))]}";
-        
-      if [[ $((i)) == 4 || $viz_flag == 1 ]]; then
-        if [ $i -gt 0 ]; then
-          viz_flag=1;
-          i=$((i-1)); 
-        else 
-          i=0; viz_flag=0;
-        fi
-      else
-        [ $i -lt 4 ] && i=$((i+1));
-      fi
-    
-      ps -p "${global_pidn}" -o pid= > /dev/null 2>&1; # Check if process exists 
-
-      [[ "$?" = 1 ]] && printf "\e[0KFinished \e[32m✓\e[0m\r" &&\
-        sleep .2 && break;
-
-      j=$((j+1));
-      sleep 0.1;
-    done
-    
-    stty echo
-    printf "\e[?1049l\e[?25h"
-  else
-    printf "usage: load_viz cmd \x1B[4mcmdarg\x1B[0m \x1B[4m...\x1B[0m\n\tload_viz echo Hi\n";
-  fi
-  
-  return 0;
+ubuntu_bootstrap() {
+  null_bootstrap;
 }
 
-
-# setup_linux() {
-# 	    	[[ "$OSTYPE" = "linux" ]]; then # Linux x86_64
-# 	        printf "\e[33mInstalling build tools (requires sudo).\e[0m\n";
-# 	        if [[ "$DISTRO" = "rhel" || "$DISTRO" = "fedora" ]]; then
-# 	            sudo yum groupinstall 'Development Tools';
-# 	            sudo yum install procps-ng file; 
-# 	        elif [[ "$DISTRO" = "kali"* || "$DISTRO" = "ubuntu"* || $DISTRO = "debian"* ]]; then
-# 	            sudo apt-get install build-essential procps file;
-# 	        fi
-# 	        /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)";
-# 	        printf "\e[33mAdding Homebrew to your PATH.\e[0m\n";
-# 	        echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> "$HOME"/.bash_profile;
-# 	        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)";
-# 	        . "$HOME"/.bash_profile;
-# 	        printf "\e[33mInstalling GCC.\e[0m\n";
-# 	        brew install gcc;
-# }
-
-# load_viz $@;
-# load_viz dd if=/dev/random iflag=fullblock bs=1G count=1 of=rand.txt;
-
-
-# Operating System type and Architecture check.
 if [[ "$OSTYPE" = "darwin" ]]; then
-  setup_osx;
+  osx_bootstrap;
 elif [[ "$OSTYPE" = "linux" ]]; then
-  DISTRO="$(cat < "/etc/os-release" | grep -w "ID" | tr -d "A-Z=")-";
-  printf "\e[31mNot supported, please use the intended package manager for %s%s [%s] to install packages.\e[0m\n" \
-    "$DISTRO" "$OSTYPE" "$ARCH";
+  DISTRO="$(grep -w "ID" "/etc/os-release" | tr -d "A-Z=")";
+  if [[ "$DISTRO" = "ubuntu" ]]; then
+    ubuntu_bootstrap;
+  else
+    null_bootstrap;
+  fi
 else
-  printf "\e[31m%s [%s] is not supported.\e[0m\n" "$OSTYPE" "$ARCH";
+  ialib::log "${OSTYPE} [${ARCH}] is not supported." warn;
 fi
 
 # Remove setup log
-ask_prompt "Do you want to remove the setup log file?" &&\
-  printf "\e[33mremoved\e[0m: %s\n" "$(rm -v ./setuplog.txt)";
+ialib::prompt "Do you want to remove the log file?" && \
+  printf "\x1B[0m\nremoved: %s\n" "$(rm -v "${LOGNAME}")";
 
-unset OSTYPE ARCH DISTRO;
-unset -f kill_and_exit ask_prompt setup_osx load_viz;
+# Cleanup
+unset OSTYPE ARCH DISTRO && \
+unset -f null_bootstrap \
+         osx_bootstrap \
+         ubuntu_bootstrap;
 
 exit 0; 

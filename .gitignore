@@ -1,5 +1,5 @@
 *.swp
-*log*.txt
+*log*
 Brewfile.lock.json
 *.out
 *.exe
