@@ -24,6 +24,7 @@ null_bootstrap() {
 }
 
 osx_bootstrap() {
+  ialib::linkconf "$(pwd)"/macOS "${HOME}"
   ialib::log "Checking for brew on ${DISTRO}${OSTYPE} [${ARCH}]." warn;
 
   if ! which brew; then
@@ -33,7 +34,7 @@ osx_bootstrap() {
       if [[ "$OSTYPE" = "darwin" ]]; then # OSX 10.15 and higher
         /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)";
         ialib::log "Adding Homebrew to your PATH." warn;
-        if [ ! "$(grep -cq "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
+        if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
           echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "${HOME}/.zshalias";
           eval "$(/opt/homebrew/bin/brew shellenv)";
         fi

@@ -35,6 +35,16 @@ ialib::log() {
   printf "${cosmetic}%s${cosmetic_reset}\n" "${1}" | tee -a ${LOGNAME};
 }
 
+# Usage: Creates links to config files
+ialib::linkconf() {
+  for file in "${1}"/.*;
+  do
+    if [ -f "${file}" ]; then
+      ln -sfv "${file}" "${2}"
+    fi
+  done;
+}
+
 # Usage: Prompts user, reads input, if input matches glob patterns then yield 0 if not then 1 
 ialib::prompt() {
   local ans;
