@@ -24,6 +24,10 @@ null_bootstrap() {
 }
 
 osx_bootstrap() {
+
+# TODO(isaacalao):
+#     linkconf needs to accomodate more paths
+
   ialib::linkconf "$(pwd)"/macOS "${HOME}"
   ialib::log "Checking for brew on ${DISTRO}${OSTYPE} [${ARCH}]." warn;
 
