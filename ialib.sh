@@ -1,64 +1,14 @@
 #!/bin/bash
 
-readonly LOGNAME="logsetup";
+LOGNAME="logsetup";
 
 ialib::loginstance() {
  printf "████████████████████ %s\n" "$(date)" >> ${LOGNAME};
 }
 
-# Usage: Logging
-#   o or ok is OK
-#   e or err is ERROR
-#   i or info is INFO
-#   w or warn is WARN
-#   * or no arg is NORMAL
-ialib::log() {
-  local cosmetic;
-  local cosmetic_reset="\x1B[0m";
-# local cosmetic_bold="\x1B[1m";
-# local cosmetic_italicize="\x1B[3m";
-# local cosmetic_underline="\x1B[4m";
-
-  case "${2}" in
-    o|ok)
-      cosmetic="\x1B[32m";;
-    e|err)
-      cosmetic="\x1B[31m";;
-    i|info)
-      cosmetic="\x1B[34m";;
-    w|warn)
-      cosmetic="\x1B[33m";;
-    *)
-      cosmetic="${cosmetic_reset}";;
-  esac;
-
-  printf "${cosmetic}%s${cosmetic_reset}\n" "${1}" | tee -a ${LOGNAME};
-}
-
-# Usage: Creates links to config files
-ialib::linkconf() {
-  for file in "${1}"/.*zsh*;
-  do
-    if [ -f "${file}" ]; then
-      ialib::prompt "Do you want to create a link for $(basename "${file}")?" && \
-      ialib::log "Linked $(ln -sfv "${file}" "${2}")" info
-    fi
-  done;
-}
-
-# Usage: Prompts user, reads input, if input matches glob patterns then yield 0 if not then 1 
-ialib::prompt() {
-  local ans;
-  printf "\e[33m%s [y/N]\e[0m\e[34m " "$1";
-  read -n 1 -r ans;
-
-  if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
-    printf "\e[0m\n";
-  else
-    printf "\e[0m\r\e[1A";
-  fi
-  
-  [[ "$ans" = [Yy]* ]] && return 0 || return 1;
+# Usage: Gets the operating system type
+ialib::getos() {
+  uname | tr "[:upper:]" "[:lower:]";
 }
 
 # Usage: Gets the architecture of the processor
@@ -72,9 +22,95 @@ ialib::getarch() {
   fi
 }
 
-# Usage: Gets the operating system type
-ialib::getos() {
-  uname | tr "[:upper:]" "[:lower:]";
+# Usage: Logs command output
+#
+# Args:
+#  cmd, cmd_args? 
+#
+# Returns: Exit code of command
+ialib::logcmd() {
+  local errno;
+
+  "${@}" | tee -a "${LOGNAME}";
+  errno=${?}
+  
+  return ${errno}
+}
+
+# Usage: Logging
+#
+# Args:
+#   output?: (string), type?: (string)
+#
+#   Log Types:
+#     o or ok is OK
+#     e or err is ERROR
+#     i or info is INFO
+#     w or warn is WARN
+#     * (catchall) is NORMAL
+#
+#   Returns: Exit code of previous command
+ialib::log() {
+  local errno="$?";
+  local newline="\n";
+  local cosmetic_label;
+  local cosmetic_reset="\x1B[0m";
+
+  case "${2}" in
+    o|ok)
+      cosmetic_label="\x1B[42;30m OK ${cosmetic_reset}"
+      ;;
+    e|err)
+      cosmetic_label="\x1B[41;30m ERR ${cosmetic_reset}"
+      ;;
+    i|info)
+      cosmetic_label="\x1B[44;30m INFO ${cosmetic_reset}"
+      ;;
+    w|warn)
+      cosmetic_label="\x1B[43;30m WARN ${cosmetic_reset}"
+      ;;
+    p|prompt)
+      cosmetic_label="\x1B[47;30m PROMPT ${cosmetic_reset}"
+      ;;
+    *)
+      cosmetic_label="${cosmetic_reset}"
+      ;;
+  esac;
+  
+  if [[ "${2}" == "prompt" || "${2}" == "p" ]]; then
+    printf "${cosmetic_label} %s" "${1}"  
+    printf "${cosmetic_label} %s${newline}" "${1}" >> "${LOGNAME}";
+  else
+    printf "${cosmetic_label} %s${newline}" "${1}" | tee -a "${LOGNAME}";
+  fi
+
+  return ${errno}
+}
+
+# Usage: Prompts user, reads input, if input matches glob patterns then yield 0 if not then 1 
+ialib::prompt() {
+  local ans;
+  ialib::log "$1 [y/N] " prompt;
+  read -n 1 -r ans;
+
+  if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1
+    printf "\e[0m\n";
+  else
+    printf "\e[0m\r\e[1A";
+  fi
+  
+  [[ "$ans" = [Yy]* ]] && return 0 || return 1;
+}
+
+# Usage: Creates links to config files
+ialib::linkconf() {
+  for file in "${1}"/.*zsh*;
+  do
+    if [ -f "${file}" ]; then
+      ialib::prompt "Do you want to create a link for $(basename "${file}")?" && \
+      printf "\x1B[47m %6s \x1B[0m %s\n" " " "Linked $(ln -sfv "${file}" "${2}")" | tee -a "${LOGNAME}"
+    fi
+  done;
 }
 
 # load_viz() {     
