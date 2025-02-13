@@ -29,34 +29,42 @@ ialib::getarch() {
 #
 # Returns: Exit code of command
 ialib::logcmd() {
+  set -o pipefail;
+
   local errno;
 
-  "${@}" | tee -a "${LOGNAME}";
-  errno=${?}
+  printf "\x1B[46;30m CMD \x1B[0m %s\n" "${*:0:2} ...">> "${LOGNAME}"
   
+  "${@}" 2>&1 | \
+    while read -r line; do
+      printf "%s\n" "${line}"
+      printf "\x1B[47;30m %s \x1B[0m %s\n" "$(date +%y-%m-%d_%H:%M:%S)" "${line}" >> "${LOGNAME}"
+    done;
+
+  errno=${?}
   return ${errno}
 }
 
 # Usage: Logging
 #
 # Args:
-#   output?: (string), type?: (string)
+#   type?: (string), output?: (string) 
 #
 #   Log Types:
 #     o or ok is OK
 #     e or err is ERROR
 #     i or info is INFO
 #     w or warn is WARN
-#     * (catchall) is NORMAL
+#     * (catch all) is NORMAL
 #
-#   Returns: Exit code of previous command
+# Returns: Exit code of previous command
 ialib::log() {
   local errno="$?";
   local newline="\n";
   local cosmetic_label;
   local cosmetic_reset="\x1B[0m";
 
-  case "${2}" in
+  case "${1}" in
     o|ok)
       cosmetic_label="\x1B[42;30m OK ${cosmetic_reset}"
       ;;
@@ -77,11 +85,11 @@ ialib::log() {
       ;;
   esac;
   
-  if [[ "${2}" == "prompt" || "${2}" == "p" ]]; then
-    printf "${cosmetic_label} %s" "${1}"  
-    printf "${cosmetic_label} %s${newline}" "${1}" >> "${LOGNAME}";
+  if [[ "${1}" == "prompt" || "${1}" == "p" ]]; then
+    printf "${cosmetic_label} %s" "${@:2}" 
+    printf "${cosmetic_label} %s${newline}" "${@:2}" >> "${LOGNAME}";
   else
-    printf "${cosmetic_label} %s${newline}" "${1}" | tee -a "${LOGNAME}";
+    printf "${cosmetic_label} %s${newline}" "${@:2}" | tee -a "${LOGNAME}";
   fi
 
   return ${errno}
@@ -90,7 +98,7 @@ ialib::log() {
 # Usage: Prompts user, reads input, if input matches glob patterns then yield 0 if not then 1 
 ialib::prompt() {
   local ans;
-  ialib::log "$1 [y/N] " prompt;
+  ialib::log prompt "$1 [y/N] ";
   read -n 1 -r ans;
 
   if [[ ! $ans = "" ]]; then # Reset and mv cursor to the beginning of the line up 1

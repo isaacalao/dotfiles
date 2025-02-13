@@ -20,7 +20,7 @@ DISTRO="";
 
 # Functions 
 null_bootstrap() {
-  ialib::log "Not supported, please use the intended package manager for ${DISTRO}${OSTYPE} [${ARCH}] to install packages." info;
+  ialib::log info "Not supported, please use the intended package manager for ${DISTRO}${OSTYPE} [${ARCH}] to install packages.";
 }
 
 osx_bootstrap() {
@@ -30,43 +30,44 @@ osx_bootstrap() {
 
   ialib::linkconf "$(pwd)"/macOS "${HOME}"
   ialib::log;
-  ialib::log "Checking if brew is installed." info;
+  ialib::log info "Checking if brew is installed.";
 
-    if ! ialib::log "Homebrew binary path: $(which brew)" info; then
+    if ! ialib::log info "Homebrew binary path: $(which breaw)"; then
 
+    ialib::log info;
+    ialib::log \ \
+      "If the path is empty it could be a number" \
+      "of things such as a misconfiguration or something" \
+      "of that magnitude, we will assume that" \
+      "it is not installed."
     ialib::log;
-    ialib::log \  info;
-    ialib::log "If the path is empty it could be a number";
-    ialib::log "of things such as a misconfiguration or something";
-    ialib::log "of that magnitude, we will assume that";
-    ialib::log "it is not installed.";
-    ialib::log;
 
-    ialib::log "HOMEBREW IS NOT INSTALLED!" warn;
+    ialib::log warn "HOMEBREW IS NOT INSTALLED!";
 
     if ialib::prompt "Do you want to install it?"; then
       if [[ "$OSTYPE" == "darwin" ]]; then # OSX 10.15 and higher
 
         ialib::logcmd \
           /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)"
-        
+
         local errno="${?}"
         if [ ${errno} -eq 0 ]; then
-          ialib::log "Adding Homebrew to your PATH." info;
           if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
-            echo "eval $(/opt/homebrew/bin/brew shellenv)" >> "${HOME}/.zshalias";
-            eval "$(/opt/homebrew/bin/brew shellenv)";
+            ialib::log info "Adding Homebrew to your PATH.";
+            echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\";" >> "${HOME}/.zshalias";
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+          else
+            ialib::log info "Homebrew is already in your PATH.";
           fi
-          source "${HOME}/.zshalias";
         else
-          ialib::log "Exit code: ${errno}" err
+          ialib::log err "Exit code: ${errno}";
         fi
       fi
     else
-      ialib::log "User decided to not install homebrew." warn;
+      ialib::log warn "User decided to not install homebrew.";
     fi
   else
-    ialib::log "HOMEBREW IS ALREADY INSTALLED!" ok;
+    ialib::log ok "HOMEBREW IS ALREADY INSTALLED!";
   fi
 
 # TODO(isaacalao): 
@@ -80,10 +81,11 @@ ubuntu_bootstrap() {
 }
 
 # Information display
-ialib::log \  info;
-ialib::log "Architecture: ${ARCH}"; 
-ialib::log "Operating System Type: ${OSTYPE}";
-ialib::log "Distribution: ${DISTRO}";
+ialib::log info;
+ialib::log \ \
+  "Architecture: ${ARCH}" \
+  "Operating System Type: ${OSTYPE}" \
+  "Distribution: ${DISTRO}";
 ialib::log;
 
 # Bootstrap setup
@@ -97,7 +99,7 @@ elif [[ "$OSTYPE" = "linux" ]]; then
     null_bootstrap;
   fi
 else
-  ialib::log "${OSTYPE} [${ARCH}] is not supported." warn;
+  ialib::log warn "${OSTYPE} [${ARCH}] is not supported.";
 fi
 
 # Remove setup log

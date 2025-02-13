@@ -137,15 +137,14 @@ vim() {
   fi
 }
 
-: ' Old
-play_tune() {
-  tune=(/var/mp3/tunes/*);
- 
-  for idx in $(seq $#tune); 
-  do
-   [[ $(echo $tune[$idx] | grep "Chime2") ]] && (afplay $tune[$idx] &) > /dev/null 2>&1
-  done
- 
-  unset idx tune;
-} '
-
+# Old
+# play_tune() {
+#   tune=(/var/mp3/tunes/*);
+#  
+#   for idx in $(seq $#tune); 
+#   do
+#    [[ $(echo $tune[$idx] | grep "Chime2") ]] && (afplay $tune[$idx] &) > /dev/null 2>&1
+#   done
+#  
+#   unset idx tune;
+# }
