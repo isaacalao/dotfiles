@@ -20,7 +20,9 @@ DISTRO="";
 
 # Functions 
 null_bootstrap() {
-  ialib::log info "Not supported, please use the intended package manager for ${DISTRO}${OSTYPE} [${ARCH}] to install packages.";
+  ialib::log info \
+  "Not supported, please use the intended package manager for" \
+  "${DISTRO}${OSTYPE} [${ARCH}] to install packages.";
 }
 
 osx_bootstrap() {
@@ -34,35 +36,35 @@ osx_bootstrap() {
 
     if ! ialib::log info "Homebrew binary path: $(which brew)"; then
 
-    ialib::log info;
-    ialib::log \ \
-      "If the path is empty it could be a number" \
-      "of things such as a misconfiguration or something" \
-      "of that magnitude, we will assume that" \
-      "it is not installed."
-    ialib::log;
+      ialib::log info;
+      ialib::log \ \
+        "If the path is empty it could be a number" \
+        "of things such as a misconfiguration or something" \
+        "of that magnitude, we will assume that" \
+        "it is not installed."
+      ialib::log;
 
-    ialib::log warn "HOMEBREW IS NOT INSTALLED!";
+      ialib::log warn "HOMEBREW IS NOT INSTALLED!";
 
-    if ialib::prompt "Do you want to install it?"; then
-      if [[ "$OSTYPE" == "darwin" ]]; then # OSX 10.15 and higher
+      if ialib::prompt "Do you want to install it?"; then
+        if [[ "$OSTYPE" == "darwin" ]]; then # OSX 10.15 and higher
 
-        ialib::logcmd \
-          /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)"
+          ialib::logcmd \
+            /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)"
 
-        local errno="${?}"
-        if [ ${errno} -eq 0 ]; then
-          if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
-            ialib::log info "Adding Homebrew to your PATH.";
-            echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\";" >> "${HOME}/.zshalias";
-            eval "$(/opt/homebrew/bin/brew shellenv)"
+          local errno="${?}"
+          if [ ${errno} -eq 0 ]; then
+            if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
+              ialib::log info "Adding Homebrew to your PATH.";
+              echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\";" >> "${HOME}/.zshalias";
+              eval "$(/opt/homebrew/bin/brew shellenv)"
+            else
+              ialib::log info "Homebrew is already in your PATH.";
+            fi
           else
-            ialib::log info "Homebrew is already in your PATH.";
+            ialib::log err "Exit code: ${errno}";
           fi
-        else
-          ialib::log err "Exit code: ${errno}";
         fi
-      fi
     else
       ialib::log warn "User decided to not install homebrew.";
     fi
