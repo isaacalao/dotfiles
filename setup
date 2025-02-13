@@ -32,7 +32,7 @@ osx_bootstrap() {
   ialib::log;
   ialib::log info "Checking if brew is installed.";
 
-    if ! ialib::log info "Homebrew binary path: $(which breaw)"; then
+    if ! ialib::log info "Homebrew binary path: $(which brew)"; then
 
     ialib::log info;
     ialib::log \ \
