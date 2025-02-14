@@ -57,25 +57,29 @@ osx_bootstrap() {
             if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
               ialib::log info "Adding Homebrew to your PATH.";
               echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\";" >> "${HOME}/.zshalias";
-              eval "$(/opt/homebrew/bin/brew shellenv)"
             else
               ialib::log info "Homebrew is already in your PATH.";
             fi
           else
             ialib::log err "Exit code: ${errno}";
+            return ${errno};
           fi
         fi
     else
       ialib::log warn "User decided to not install homebrew.";
+      return $?;
     fi
   else
     ialib::log ok "HOMEBREW IS ALREADY INSTALLED!";
   fi
 
-# TODO(isaacalao): 
-#   Investigate
-#     brew bundle with verbose output hangs when installing packages 
-#     std::prompt "Do you want to initiate brew bundle (may require sudo)?" && brew -v bundle;
+  if ialib::prompt "Do you want to install packages via Brewfile (may require sudo)?"; then
+    eval "$(/opt/homebrew/bin/brew shellenv)";
+    ialib::log info "Installing packages via Brewfile.";
+    ialib::logcmd cp ./macOS/Brewfile .;
+    ialib::logcmd brew bundle install;
+    ialib::logcmd rm Brewfile;
+  fi
 }
 
 ubuntu_bootstrap() {
@@ -114,4 +118,4 @@ unset -f null_bootstrap \
          osx_bootstrap \
          ubuntu_bootstrap;
 
-exit $?; 
+exec "$(which "${SHELL}")"
