@@ -37,7 +37,6 @@ ialib::getdistro() {
 # Returns: Exit code of command
 ialib::logcmd() {
   set -o pipefail;
-
   local errno;
 
   printf "\x1B[46;30m CMD \x1B[0m %s\n" "${*:0:2} ...">> "${LOGNAME}"
@@ -48,8 +47,10 @@ ialib::logcmd() {
       printf "\x1B[47;30m %s \x1B[0m %s\n" "$(date +%y-%m-%d_%H:%M:%S)" "${line}" >> "${LOGNAME}"
     done;
 
-  errno=${?}
-  return ${errno}
+  errno=${?};
+
+  set +o pipefail;
+  return ${errno};
 }
 
 # Usage: Logging
