@@ -22,6 +22,13 @@ ialib::getarch() {
   fi
 }
 
+# Usage: Gets the distribution type
+ialib::getdistro() {
+  if [ -f "/etc/os-release" ]; then
+    grep -w "ID" "/etc/os-release" | tr -d "A-Z=";
+  fi
+}
+
 # Usage: Logs command output
 #
 # Args:

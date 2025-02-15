@@ -16,13 +16,14 @@ ialib::loginstance;
 # Globals 
 ARCH="$(ialib::getarch)";
 OSTYPE="$(ialib::getos)";
-DISTRO="";
+DISTRO="$(ialib::getdistro)";
 
 # Functions 
 null_bootstrap() {
-  ialib::log info \
-  "Not supported, please use the intended package manager for" \
-  "${DISTRO}${OSTYPE} [${ARCH}] to install packages.";
+  ialib::log info;
+  ialib::log \ \
+    "Not supported, please use the intended package manager for" \
+    "${DISTRO}${OSTYPE} [${ARCH}] to install packages.";
 }
 
 osx_bootstrap() {
@@ -98,7 +99,6 @@ ialib::log;
 if [[ "$OSTYPE" = "darwin" ]]; then
   osx_bootstrap;
 elif [[ "$OSTYPE" = "linux" ]]; then
-  DISTRO="$(grep -w "ID" "/etc/os-release" | tr -d "A-Z=")";
   if [[ "$DISTRO" = "ubuntu" ]]; then
     ubuntu_bootstrap;
   else
