@@ -38,6 +38,18 @@ tf() {
   fi
 }
 
+url_encode() {
+  encoded_str="https://"
+  for i in $(seq 0 ${#1}); do
+    if [[ "${1:${i}:1}" == [[:alnum:]] ]]; then
+      encoded_str="${encoded_str}%$(echo -n "${1:${i}:1}" | xxd -ps | fold -w 2 | tr -d "\n")"
+    else
+      encoded_str="${encoded_str}${1:${i}:1}"
+    fi
+  done
+  printf "%s\n" "${encoded_str}"
+}
+
 mkcd() { 
   mkdir -p "$@" && cd "${_}" || return $? 
 }
