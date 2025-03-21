@@ -8,6 +8,19 @@ else
   export MONGO_DB_ROOT_PATH="${HOME}/mongo_databases"
 fi
 
+# Aesthetics
+case "${1}" in 
+  *)
+   export ACCENT_COLOR="007afa" # BLUE 
+   #export ACCENT_COLOR="8c8c8c" # GRAPHITE
+   #export ACCENT_COLOR="a54fa6" # PURPLE
+  ;;
+  yabai)
+    exit
+  ;;
+esac
+
+# Aliases
 alias kns="k get ns"
 alias kctx="kubectx"
 alias kconf="k config view"
