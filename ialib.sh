@@ -15,7 +15,7 @@ ialib::getos() {
 ialib::getarch() {
   local arch;
   arch="$(uname -p | tr "[:upper:]" "[:lower:]")"
-  if [ "${arch}" = "unknown" ]; then
+  if [[ "${arch}" = "unknown" ]]; then
     uname -m | tr "[:upper:]" "[:lower:]";
   else
     printf "%s\n" "${arch}"

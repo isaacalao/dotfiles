@@ -48,7 +48,7 @@ osx_bootstrap() {
       ialib::log warn "HOMEBREW IS NOT INSTALLED!";
 
       if ialib::prompt "Do you want to install it?"; then
-        if [[ "$OSTYPE" == "darwin" ]]; then # OSX 10.15 and higher
+        if [[ "${OSTYPE}" == "darwin" ]]; then # OSX 10.15 and higher
 
           ialib::logcmd \
             /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)"
@@ -67,7 +67,7 @@ osx_bootstrap() {
         fi
     else
       ialib::log warn "User decided to not install homebrew.";
-      return $?;
+      return ${?};
     fi
   else
     ialib::log ok "HOMEBREW IS ALREADY INSTALLED!";
@@ -95,10 +95,10 @@ ialib::log \ \
 ialib::log;
 
 # Bootstrap setup
-if [[ "$OSTYPE" = "darwin" ]]; then
+if [[ "${OSTYPE}" = "darwin" ]]; then
   osx_bootstrap;
-elif [[ "$OSTYPE" = "linux" ]]; then
-  if [[ "$DISTRO" = "ubuntu" ]]; then
+elif [[ "${OSTYPE}" = "linux" ]]; then
+  if [[ "${DISTRO}" = "ubuntu" ]]; then
     ubuntu_bootstrap;
   else
     null_bootstrap;

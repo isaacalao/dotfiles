@@ -1,6 +1,22 @@
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Aesthetics
+case "${1}" in 
+  *)
+   export ACCENT_COLOR="007afa" # BLUE 
+   #export ACCENT_COLOR="8c8c8c" # GRAPHITE
+   #export ACCENT_COLOR="a54fa6" # PURPLE
+  ;;
+  yabai)
+    export YABAI_APP_LIST="(Camera Window|iPhone Mirroring|Keystroke Pro|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|FaceTime|OBS|QuickTime Player|Preview)"
+    exit
+  ;;
+esac
+
+# Environment Variables
+# export EDITOR=vim # (issue) logs control characters to screen
+
 # Aliases
 alias ..="cd .."
 alias ls="eza --tree -L 1" # exa is no longer maintained
@@ -16,7 +32,6 @@ alias openvpn="sudo openvpn"
 alias pbclear="pbcopy < /dev/null"
 
 # Functions
-
 wttr() { curl -s "https://wttr.in/${1}"; return $? }
 
 chtsh() { IFS="/"; curl -s "https://cht.sh/${*}"; return $? }
@@ -26,10 +41,9 @@ mkcd() { mkdir -p "$@" && cd "$_";  return $? }
 mknote() { vim ${@}; return $? }
 
 editalias() { 
-  vim "$HOME/.zshalias" && . "$HOME/.zshalias" \
-	&& printf "\"%s\", updated and sourced.\n" "$(basename "${HOME}/.zshalias")";
-
-  return $?
+  vim "$HOME/.zshalias" && \
+    printf "Updated and sourced %s.\n" "$(basename $(echo "${HOME}/.zshalias"))" && \
+    . "$HOME/.zshalias"
 }
 
 obsidian() { 
@@ -148,3 +162,4 @@ vim() {
 #  
 #   unset idx tune;
 # }
+
