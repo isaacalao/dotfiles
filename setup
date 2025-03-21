@@ -17,13 +17,14 @@ ialib::loginstance;
 ARCH="$(ialib::getarch)";
 OSTYPE="$(ialib::getos)";
 DISTRO="$(ialib::getdistro)";
+DSLASH="";
 
 # Functions 
 null_bootstrap() {
   ialib::log info;
   ialib::log \ \
     "Not supported, please use the intended package manager for" \
-    "${DISTRO}${OSTYPE} [${ARCH}] to install packages.";
+    "${DISTRO}${DSLASH}${OSTYPE} [${ARCH}] to install packages.";
 }
 
 osx_bootstrap() {
@@ -112,7 +113,7 @@ ialib::prompt "Do you want to remove the log file?" && \
   printf "\x1B[0m\nremoved: %s\n" "$(rm -v "${LOGNAME}")";
 
 # Cleanup
-unset OSTYPE ARCH DISTRO && \
+unset OSTYPE ARCH DISTRO DSLASH && \
 unset -f null_bootstrap \
          osx_bootstrap \
          ubuntu_bootstrap;
