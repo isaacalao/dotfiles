@@ -14,7 +14,7 @@ case "${1}" in
    export ACCENT_COLOR="007afa" # BLUE 
    #export ACCENT_COLOR="8c8c8c" # GRAPHITE
    #export ACCENT_COLOR="a54fa6" # PURPLE
-  ;;
+  ;;&
   yabai)
     exit
   ;;
