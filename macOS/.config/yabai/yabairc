@@ -30,4 +30,4 @@ yabai -m rule --add app="^${YABAI_APP_LIST}$" manage=off
 
 # JankyBorders
 # AARRGGBB
-borders active_color=0xff${ACCENT_COLOR} inactive_color=0x0 width=7.0 blacklist="iPhone Mirroring" &
+borders active_color=0xff${ACCENT_COLOR} inactive_color=0xaa${ACCENT_COLOR:0:4}44 width=7.0 blacklist="iPhone Mirroring" &

@@ -6,7 +6,6 @@
 # TODO(isaacalao):
 #   refactor this entire script and use styleguide
 
-
 # Import isaacalao library
 source ./ialib.sh;
 
@@ -118,5 +117,4 @@ unset -f null_bootstrap \
          osx_bootstrap \
          ubuntu_bootstrap;
 
-ialib::prompt "Replace the current running script with ${SHELL}?" && \
-  exec "$(which "${SHELL:=NULL}")" || exit ${?};
+ialib::prompt "Do you want to reload your environment?"; exit ${?};
