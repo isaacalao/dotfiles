@@ -37,23 +37,11 @@ sudo apt-get install git curl;
 
 ## Run
 
-For this to work you must run the function within the directory the `setup` file
-resides in. This will run the setup in its entirety.
+For this to work you must run the command within the directory `setup_initiator` 
+and `setup` resides in. This will run the setup in its entirety:
 
 ```bash
-setup_initiator() { # Function definition / Callee
-    bash setup;
-
-    if [ ${?} -eq 0 ]; then
-        printf "Reimaging current environment.\nStatus: ${?}\n";
-        exec $(command -v "${SHELL}");
-    else
-        printf "Deferred environment reimaging.\nStatus: ${?}\n";
-    fi
-}
-
-setup_initiator; \ # Caller
-    unset -f setup_initiator; # Unset function
+eval "$(cat "setup_initiator")";
 ```
 
 ## TODO(s)

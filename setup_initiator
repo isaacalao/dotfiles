@@ -1,0 +1,9 @@
+# Function definition / Callee
+bash setup;
+
+if [ ${?} -eq 0 ]; then
+  printf "Reimaging current environment.\nStatus: ${?}\n";
+  exec $(command -v "${SHELL}");
+else
+  printf "Deferred environment reimaging.\nStatus: ${?}\n";
+fi
