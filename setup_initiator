@@ -1,4 +1,3 @@
-# Function definition / Callee
 bash setup;
 
 if [ ${?} -eq 0 ]; then
