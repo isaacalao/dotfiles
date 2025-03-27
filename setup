@@ -117,4 +117,4 @@ unset -f null_bootstrap \
          osx_bootstrap \
          ubuntu_bootstrap;
 
-ialib::prompt "Do you want to reload your environment?"; exit ${?};
+ialib::prompt "Do you want to reimage your environment?"; exit ${?};
