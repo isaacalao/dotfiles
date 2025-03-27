@@ -32,7 +32,7 @@ ialib::getdistro() {
 # Usage: Logs command output
 #
 # Args:
-#  cmd, cmd_args? 
+#  cmd, ?cmd_args 
 #
 # Returns: Exit code of command
 ialib::logcmd() {
@@ -56,7 +56,7 @@ ialib::logcmd() {
 # Usage: Logging
 #
 # Args:
-#   type?: (string), output?: (string) 
+#   ?type: (string), ?output: (string) 
 #
 #   Log Types:
 #     o or ok is OK
