@@ -1,4 +1,4 @@
-#!/bin/env bash
+
 
 # DESCRIPTION
 #   Automate the installation of my environment on supported platforms
@@ -98,6 +98,7 @@ ialib::log;
 if [[ "${OSTYPE}" = "darwin" ]]; then
   osx_bootstrap;
 elif [[ "${OSTYPE}" = "linux" ]]; then
+  : "${DSLASH:=/}"
   if [[ "${DISTRO}" = "ubuntu" ]]; then
     ubuntu_bootstrap;
   else
