@@ -31,7 +31,7 @@ require("lazy").setup({
   -- colorscheme that will be used when installing plugins.
   install = {},
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
 })
 
 ---
@@ -71,14 +71,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-require('mason').setup({})
-require('mason-lspconfig').setup({
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({})
-    end,
-  }
-})
+-- Setup 
+require('lspconfig').clangd.setup({}) -- C/C++/Cuda
+require('lspconfig').hhvm.setup({}) -- Hack/PHP
+require('lspconfig').gopls.setup({}) -- go
+require('lspconfig').bashls.setup({}) -- bash/sh
+require('lspconfig').rust_analyzer.setup({}) -- rust
+require('lspconfig').ast_grep.setup({}) -- rust
+require('lspconfig').lua_ls.setup({}) -- lua 
+require('lspconfig').ts_ls.setup({}) -- ts/js
+require('lspconfig').yamlls.setup({}) -- yaml
+require('lspconfig').dockerls.setup({}) -- docker
+
+require('lspconfig').ruff.setup({}) -- python
+require('lspconfig').pyright.setup({})
+
 
 ---
 -- Autocompletion config

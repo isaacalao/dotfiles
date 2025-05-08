@@ -151,6 +151,38 @@ vim() {
   fi
 }
 
+spotify() { 
+  if [ -x "$(whereis spotify_player | awk '{ print $2 }')" ]; then
+    spotify_player "${@}"
+    return ${?}
+  else
+    printf "spotify_player is not installed\n"
+    return 127
+  fi
+}
+
+mytmux () {
+  MY_TMUX_SESSION="💻";
+  MY_TMUX_EDITOR_NAME="Neovim "
+  MY_TMUX_SPOTIFY="Spotify "
+  
+  if ! tmux has-session -t "${MY_TMUX_SESSION}" 2> /dev/null; then
+    tmux new-session -d -s "${MY_TMUX_SESSION}" -n "${MY_TMUX_EDITOR_NAME}" && \
+      tmux send-keys -t "${MY_TMUX_SESSION}:${MY_TMUX_EDITOR_NAME}" "vim -" C-m && \
+      tmux split-window -t "${MY_TMUX_SESSION}:${MY_TMUX_EDITOR_NAME}" && \
+      tmux send-keys -t "${MY_TMUX_SESSION}:${MY_TMUX_EDITOR_NAME}" "btop" C-m && \
+      tmux split-window -h -t "${MY_TMUX_SESSION}:${MY_TMUX_EDITOR_NAME}";
+  
+    tmux new-window -t "${MY_TMUX_SESSION}" -n "${MY_TMUX_SPOTIFY}" && \
+      tmux send-keys -t "${MY_TMUX_SESSION}:${MY_TMUX_SPOTIFY}" "spotify" C-m;
+  
+    tmux select-window -t "${MY_TMUX_SESSION}:${MY_TMUX_EDITOR_NAME}";
+  fi
+  
+  
+  tmux attach-session -t "${MY_TMUX_SESSION}";
+}
+
 # Old
 # play_tune() {
 #   tune=(/var/mp3/tunes/*);
