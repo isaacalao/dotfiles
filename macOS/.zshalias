@@ -19,12 +19,12 @@ esac
 
 # Aliases
 alias ..="cd .."
-alias ls="eza --tree -L 1" # exa is no longer maintained
+alias ls="eza --icons --tree -L 0" # exa is no longer maintained
 alias nc="ncat"
 alias cat="bat"
 alias clr="clear"
 alias dirs="dirs -v"
-alias tree="eza --tree"
+alias tree="eza --icons --tree"
 alias nano="nano -l"
 alias diff="diff --color=always"
 alias grep="grep --color=always"

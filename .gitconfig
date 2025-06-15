@@ -11,3 +11,6 @@
 [credential "https://gist.github.com"]
   helper = 
   helper = !command gh auth git-credential
+[alias]
+  #clone = "!git clone ${1} $(basename "${1}") && :"
+  test = "!echo ${@} && :"
