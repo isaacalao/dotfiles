@@ -1,38 +1,21 @@
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-
 # Environment Variables
 # export EDITOR=vim # (issue) logs control characters to screen
 export ACCENT_COLOR="007afa" # BLUE 
 #export ACCENT_COLOR="8c8c8c" # GRAPHITE
 #export ACCENT_COLOR="a54fa6" # PURPLE
 
-# Aesthetics
 case "${1}" in 
-  yabai)
-    export YABAI_APP_LIST="(Camera Window|Notes|iPhone Mirroring|Keystroke Pro|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|Find My|FaceTime|OBS|QuickTime Player|Preview)"
-    kill_and_revive() {
-       APPS="$(printf "${YABAI_APP_LIST}" | tr -d "()" | tr "|" "\n")"
-       printf "${APPS}" | \
-         while read app; do
-           if killall "${app}" > /dev/null 2>&1; then
-            if open -a "${app}"; then
-              printf "[KILL_AND_REVIVE]::OPENAPP::OK::${app}\n"
-            else
-              printf "\x1B[31m[KILL_AND_REVIVE]::OPENAPP::ERR::${app}\x1B[0m\n"
-            fi
-          fi
-         done
-    }
+  borders)
     return
   ;;
 esac
 
-
 # Aliases
 alias ..="cd .."
-alias ls="eza --icons --tree -L 0" # exa is no longer maintained
+alias ls="eza --icons --tree -L 1"
 alias nc="ncat"
 alias cat="bat"
 alias clr="clear"
