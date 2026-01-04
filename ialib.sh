@@ -135,9 +135,10 @@ ialib::linkconf() {
 #   global_pidn="$!"; # Acquire the process number
 # 
 #   if [[ "$#" -gt 0 ]]; then
-#     loadchar=("/" "-" "\\" "|");
+##     loadchar=("/" "-" "\\" "|");
 #     viz_flag=0; i=0; j=0;
 #     row=$(($(stty size | awk '{print $1}')));
+#     heading_text="$(figlet -f "poison" "$1" | lolcat -f)"
 #     printf "\e[?1049h\e[0m\e[2J\e[%s;0H\e[?25l" "${row}"
 #     stty -echo
 #     
@@ -145,8 +146,8 @@ ialib::linkconf() {
 #       row=$(($(stty size | awk '{print $1}')));
 #       col=$(($(stty size | awk '{print $2}')));
 #         
-#       printf "\e[2J\e[48;5;$((235+i))m%${col}s\e[${row};0H%s %s\e[40m\e[0m\r" ""\
-#           "$1" "${loadchar[$((j % ${#loadchar[@]}))]}";
+#       printf "\e[2J${heading_text}\n\e[48;5;$((235+i))m%${col}s\e[${row};0H%s\e[40m\e[0m\r" ""\
+#         "ARGS: ${*:2}";
 #         
 #       if [[ $((i)) == 4 || $viz_flag == 1 ]]; then
 #         if [ $i -gt 0 ]; then
@@ -165,7 +166,7 @@ ialib::linkconf() {
 #         sleep .2 && break;
 # 
 #       j=$((j+1));
-#       sleep 0.1;
+#       sleep 0.05;
 #     done
 #     
 #     stty echo
