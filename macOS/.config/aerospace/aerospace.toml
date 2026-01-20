@@ -3,7 +3,7 @@
 # You can use it to add commands that run after AeroSpace startup.
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [ 
-  'exec-and-forget . ${HOME}/.zshrc borders-config && borders active_color=0xff${ACCENT_COLOR} inactive_color=0xff${ACCENT_COLOR:0:4}44 width=12.0 blacklist=iPhone\ Mirroring',
+  'exec-and-forget . ${HOME}/.zshrc borders-config && borders active_color=0xff${ACCENT_COLOR} inactive_color=0xff${ACCENT_COLOR:3:3}${ACCENT_COLOR:1:2}${ACCENT_COLOR:3:1} width=12.0 blacklist=iPhone\ Mirroring',
 ]
 
 # Start AeroSpace at login
