@@ -118,15 +118,19 @@ ialib::prompt() {
   [[ "$ans" = [Yy]* ]] && return 0 || return 1;
 }
 
-# Usage: Creates links to config files
+# Usage: Creates soft link(s) to config or alias files.
 ialib::linkconf() {
-  for file in "${1}"/.*zsh*;
-  do
-    if [ -f "${file}" ]; then
-      ialib::prompt "Do you want to create a link for $(basename "${file}")?" && \
-      printf "\x1B[47m %6s \x1B[0m %s\n" " " "Linked $(ln -sfv "${file}" "${2}")" | tee -a "${LOGNAME}"
-    fi
-  done;
+  if [ -d "${1}" ]; then
+    for file in "${1}"/.*zsh*;
+    do
+      if [ -f "${file}" ]; then
+        ialib::prompt "Do you want to create a link for $(basename "${file}")?" && \
+        printf "\x1B[47m %6s \x1B[0m %s\n" " " "Linked $(ln -sfv "${file}" "${2}")" | tee -a "${LOGNAME}"
+      fi
+    done;
+  elif [ -f "${1}" ]; then
+    printf "\x1B[47m %6s \x1B[0m %s\n" " " "Linked $(ln -sfv "${file}" "${2}")" | tee -a "${LOGNAME}"
+  fi
 }
 
 # load_viz() {     

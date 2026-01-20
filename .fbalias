@@ -1,0 +1,14 @@
+# Environment Variables
+export ACCENT_COLOR="00fa7a" # GREEN
+
+# Aliases
+alias code="code-fb"
+alias www="dev connect -t www"
+alias connectod="dev connect --no-release-prompt"
+
+# Functions
+releaseod() {
+  local dev_list_json="$(dev list --json)"
+  local dev_box_identifier="$(printf "%s" "${dev_list_json}" | jq -r '.. | .name? | select(. != null)' | fzf --preview "printf '${dev_list_json}' | jq 'flatten | .[] | select(.name == \"'{}'\")" | cut -d " " -f 1)"
+  dev release -n "${dev_box_identifier}"
+}

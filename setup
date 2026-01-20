@@ -4,7 +4,7 @@
 # TODO(isaacalao):
 #   refactor this entire script and use styleguide
 
-# Import isaacalao library
+# Import isaacalao's util library
 source ./ialib.sh;
 
 # Logs each setup instance 
@@ -25,44 +25,46 @@ null_bootstrap() {
 }
 
 osx_bootstrap() {
+  if ialib::prompt "Add .fbalias to ${HOME}?"; then
+    ialib::linkconf "$(pwd)/.fbalias" "${HOME}"
+  fi
 
 # TODO(isaacalao):
 #     linkconf needs to accomodate more paths
-
-  ialib::linkconf "$(pwd)"/macOS "${HOME}"
+  ialib::linkconf "$(pwd)/macOS" "${HOME}"
   ialib::log;
   ialib::log info "Checking if brew is installed.";
 
-    if ! ialib::log info "Homebrew binary path: $(which brew)"; then
+  if ! ialib::log info "Homebrew binary path: $(which brew)"; then
 
-      ialib::log info;
-      ialib::log \ \
-        "If the path is empty it could be a number" \
-        "of things such as a misconfiguration or something" \
-        "of that magnitude, we will assume that" \
-        "it is not installed."
-      ialib::log;
+    ialib::log info;
+    ialib::log \ \
+      "If the path is empty it could be a number" \
+      "of things such as a misconfiguration or something" \
+      "of that magnitude, we will assume that" \
+      "it is not installed."
+    ialib::log;
 
-      ialib::log warn "HOMEBREW IS NOT INSTALLED!";
+    ialib::log warn "HOMEBREW IS NOT INSTALLED!";
 
-      if ialib::prompt "Do you want to install it?"; then
-        if [[ "${OSTYPE}" == "darwin" ]]; then # OSX 10.15 and higher
+    if ialib::prompt "Do you want to install it?"; then
+      if [[ "${OSTYPE}" == darwin* ]]; then # OSX 10.15 and higher
 
-          ialib::logcmd \
-            /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)"
+        ialib::logcmd \
+          /bin/bash -c "$(curl -fsSL https://raw.github.com/Homebrew/install/HEAD/install.sh)"
 
-          if [ ${?} -eq 0 ]; then
-            if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
-              ialib::log info "Adding Homebrew to your PATH.";
-              echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\";" >> "${HOME}/.zshalias";
-            else
-              ialib::log info "Homebrew is already in your PATH.";
-            fi
+        if [ ${?} -eq 0 ]; then
+          if [ ! "$(grep -c "brew shellenv" "${HOME}/.zshalias")" -eq 1 ]; then
+            ialib::log info "Adding Homebrew to your PATH.";
+            echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\";" >> "${HOME}/.zshalias";
           else
-            ialib::log err "Exit code: ${?}";
-            return ${?};
+            ialib::log info "Homebrew is already in your PATH.";
           fi
+        else
+          ialib::log err "Exit code: ${?}";
+          return ${?};
         fi
+      fi
     else
       ialib::log warn "User decided to not install homebrew.";
       return ${?};
@@ -93,11 +95,11 @@ ialib::log \ \
 ialib::log;
 
 # Bootstrap setup
-if [[ "${OSTYPE}" = "darwin" ]]; then
+if [[ "${OSTYPE}" == darwin* ]]; then
   osx_bootstrap;
-elif [[ "${OSTYPE}" = "linux" ]]; then
+elif [[ "${OSTYPE}" == linux* ]]; then
   : "${DSLASH:=/}"
-  if [[ "${DISTRO}" = "ubuntu" ]]; then
+  if [[ "${DISTRO}" == ubuntu* ]]; then
     ubuntu_bootstrap;
   else
     null_bootstrap;

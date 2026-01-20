@@ -8,7 +8,7 @@ export ACCENT_COLOR="007afa" # BLUE
 #export ACCENT_COLOR="a54fa6" # PURPLE
 
 case "${1}" in 
-  borders)
+  borders-config)
     return
   ;;
 esac
@@ -18,6 +18,7 @@ alias ..="cd .."
 alias ls="eza --icons --tree -L 1"
 alias nc="ncat"
 alias cat="bat"
+alias pbj="pbpaste | jq"
 alias clr="clear"
 alias dirs="dirs -v"
 alias tree="eza --icons --tree"
@@ -26,9 +27,10 @@ alias diff="diff --color=always"
 alias grep="grep --color=always"
 alias openvpn="sudo openvpn"
 alias pbclear="pbcopy < /dev/null"
+alias aerofresh="killall AeroSpace; killall borders; open -a AeroSpace"
+alias sortbylen="pbpaste | awk '{ print length, \$0 }' | sort -n | cut -d\" \" -f2-"
 
 # Functions
-
 cd() {
   builtin cd "${@}";
   (echo "$(uname)\nIn $(basename ${PWD})" > "${HOME}/.richpresencecli.txt" &) > /dev/null 2>&1 

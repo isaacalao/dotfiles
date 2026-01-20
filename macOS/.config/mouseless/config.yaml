@@ -342,9 +342,9 @@ keymaps:
     undo last key: Backspace
     wheel down: M
     wheel down fast: null
-    wheel left: .
+    wheel left: N
     wheel left fast: null
-    wheel right: /
+    wheel right: .
     wheel right fast: null
     wheel step down: null
     wheel step down large: null
