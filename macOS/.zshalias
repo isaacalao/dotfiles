@@ -8,7 +8,7 @@ export ACCENT_COLOR="007afa" # BLUE
 #export ACCENT_COLOR="a54fa6" # PURPLE
 
 # Add custom configs
-test -f "${HOME}/.fbalias" && source "${HOME}/.fbalias"
+test -f "${HOME}/.fbalias" && . "${_}"
 
 case "${1}" in 
   borders-config)

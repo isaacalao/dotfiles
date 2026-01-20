@@ -129,7 +129,7 @@ ialib::linkconf() {
       fi
     done;
   elif [ -f "${1}" ]; then
-    printf "\x1B[47m %6s \x1B[0m %s\n" " " "Linked $(ln -sfv "${file}" "${2}")" | tee -a "${LOGNAME}"
+    printf "\x1B[47m %6s \x1B[0m %s\n" " " "Linked $(ln -sfv "${1}" "${2}")" | tee -a "${LOGNAME}"
   fi
 }
 
