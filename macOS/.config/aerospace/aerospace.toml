@@ -59,7 +59,7 @@ automatically-unhide-macos-hidden-apps = false
     outer.top =        12 
     outer.right =      12 
 [[on-window-detected]]
-  if.app-name-regex-substring = '(Camera Window|Notes|iPhone Mirroring|Keystroke Pro|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|Find My|FaceTime|OBS|QuickTime Player|Preview)'
+  if.app-name-regex-substring = '(^OBS$|Photo Booth|Camera Window|Notes|iPhone Mirroring|Keystroke Pro|Spotify|Activity Monitor|System Settings|Script Editor|Calculator|Finder|Notes|Find My|Find My|FaceTime|QuickTime Player|Preview)'
   run = ['layout floating']
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
