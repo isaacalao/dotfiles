@@ -25,7 +25,7 @@ null_bootstrap() {
 }
 
 osx_bootstrap() {
-  if ialib::prompt "Add .fbalias to ${HOME}?"; then
+  if ialib::prompt "Add FB Config [.fbalias] to ${HOME}?"; then
     ialib::linkconf "$(pwd)/.fbalias" "${HOME}"
   fi
 
